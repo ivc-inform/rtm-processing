@@ -33,16 +33,15 @@ import com.simplesys.option.{ScNone, ScOption}
 import ru.simplesys.defs.app.gen.scala.ScalaJSGen._
 import ru.simplesys.defs.app.scala.container.{ScenariosScr_ScenarioClobConfigDataRecord, ScenariosScr_ScenarioDataRecord}
 import com.simplesys.appCommon.common._
+import ru.simplesys.defs.app.scala.container.scenarios.ScenarioUpdateStatusContainerShared
 
 import scala.scalajs.js
 import scala.scalajs.js.annotation.ScalaJSDefined
 
-@ScalaJSDefined
 trait Scr_ScenarioClobConfigDataRecordExt extends ScenariosScr_ScenarioClobConfigDataRecord {
     val error: JSUndefined[ErrorStuct]
 }
 
-@ScalaJSDefined
 trait ScenarioUpdateData extends JSObject {
     val id_scenario: JSUndefined[Double]
     val mode: JSUndefined[String]
@@ -50,7 +49,6 @@ trait ScenarioUpdateData extends JSObject {
     val scenarioProdTestMode: JSUndefined[Boolean]
 }
 
-@ScalaJSDefined
 trait RefreshScenarioGridResult extends JSObject {
     val error: JSUndefined[String]
 }
@@ -98,7 +96,7 @@ class ScenarioCompainProps extends CommonTreeListGridEditorComponentProps {
             align = Alignment.center.opt
         },
         new ListGridFieldProps {
-            nameStrong = scenarios_Scr_Scenario_caption_cmpgn_NameStrong.opt
+            nameStrong =  scenarios_Scr_Scenario_caption_cmpgn_Id_cmpgn_NameStrong.opt
             editorType = FormItemComponentType.LookupTreeGridEditorItem
             editorProperties = LookupTreeGridEditorItem(
                 new LookupTreeGridEditorItemProps {
@@ -106,7 +104,7 @@ class ScenarioCompainProps extends CommonTreeListGridEditorComponentProps {
                 }).opt
         },
         new ListGridFieldProps {
-            nameStrong = scenarios_Scr_Scenario_code_cmpgn_NameStrong.opt
+            nameStrong =  scenarios_Scr_Scenario_caption_cmpgn_Id_cmpgn_NameStrong.opt
             editorType = FormItemComponentType.LookupTreeGridEditorItem
             editorProperties = LookupTreeGridEditorItem(
                 new LookupTreeGridEditorItemProps {
@@ -141,7 +139,7 @@ class ScenarioCompainProps extends CommonTreeListGridEditorComponentProps {
                         override val scenarioTestMode: JSUndefined[Boolean] = testMode
                         override val scenarioProdTestMode: JSUndefined[Boolean] = prodTestMode
                     }.opt
-                    actionURL = (simpleSyS.simpleSysContextPath + scenarios_Scr_Scenario_UpdateStatus).opt
+                    actionURL = (simpleSyS.simpleSysContextPath + ScenarioUpdateStatusContainerShared.scenarios_Scr_Scenario_UpdateStatus).opt
                     callback = {
                         (resp: RPCResponse, data: JSObject, req: RPCRequest) ⇒
                             resp.results.foreach {
@@ -400,7 +398,7 @@ class ScenarioCompainProps extends CommonTreeListGridEditorComponentProps {
         val _identifier = s"D529567A-C367-3198-E36E-CAEA02368AE9_${_title}"
         val _identifier1 = s"D529567A-C367-3198-E36E-CAEA02368AE9_${selectedRecord.id_scenario}_${_title}"
 
-        windows.find(_.identifier == _identifier1).foreach(_.close())
+        windows.find(_.identifier.getOrElse("") == _identifier1).foreach(_.close())
 
         windows add WindowSS.create(
             new WindowSSProps {

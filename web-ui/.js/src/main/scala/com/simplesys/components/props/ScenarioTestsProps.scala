@@ -32,11 +32,11 @@ import com.simplesys.option.ScOption._
 import ru.simplesys.defs.app.gen.scala.ScalaJSGen._
 import com.simplesys.appCommon.common._
 import ru.simplesys.defs.app.scala.container._
+import ru.simplesys.defs.app.scala.container.scenarios.ScenarioTesterContainerShared
 
 import scala.scalajs.js
 import scala.scalajs.js.annotation.ScalaJSDefined
 
-@ScalaJSDefined
 trait RefreshTestGroupGridResult extends JSObject {
     val value: JSUndefined[Int]
     val idGroupTest: JSUndefined[Double]
@@ -45,19 +45,16 @@ trait RefreshTestGroupGridResult extends JSObject {
     val data: JSUndefined[String]
 }
 
-@ScalaJSDefined
 trait ScenarioTestData extends JSObject {
     val idsGroupTest: JSArray[Double]
     val mode: JSUndefined[Int]
 }
 
-@ScalaJSDefined
 trait ScenarioErrorData extends JSObject {
     val message: JSUndefined[String]
     val stackTrace: JSUndefined[String]
 }
 
-@ScalaJSDefined
 class LoggingViewer extends JSObject {
     private val windows = IscArray[WindowSS]()
     private val logs = js.Dictionary[IscArray[String]]()
@@ -65,7 +62,7 @@ class LoggingViewer extends JSObject {
     def getWindowIdentifier(idGroupTest: Double) = s"${loggingWindowGroupID}_$idGroupTest"
 
     def closeWindow(idGroupTest: Double): Unit = {
-        windows.find(_.identifier == getWindowIdentifier(idGroupTest)).foreach {
+        windows.find(_.identifier.getOrElse("") == getWindowIdentifier(idGroupTest)).foreach {
             window ⇒
                 window.close()
                 windows remove(obj = window, comparator = (w: WindowSS, w1: WindowSS) ⇒ w.identifier == window.identifier)
@@ -139,7 +136,7 @@ class LoggingViewer extends JSObject {
     }
 
     def findWindow(idGroupTest: Double): Option[WindowSS] = {
-        val res = windows.find(_.identifier == getWindowIdentifier(idGroupTest))
+        val res = windows.find(_.identifier.getOrElse("") == getWindowIdentifier(idGroupTest))
         println(s"findWindow($idGroupTest) = $res")
         res
     }
@@ -264,7 +261,7 @@ class ScenarioTestsProps extends CommonTreeListGridEditorComponentProps {
 
     replacingFieldsList = Seq(
         new ListGridFieldProps {
-            nameStrong = scenarios_Test_codeGroup_NameStrong.opt
+            nameStrong = scenarios_Test_codeGroup_Group_NameStrong.opt
             editorType = FormItemComponentType.LookupTreeGridEditorItem
             editorProperties = LookupTreeGridEditorItem(
                 new LookupTreeGridEditorItemProps {
@@ -537,7 +534,7 @@ class ScenarioTestsProps extends CommonTreeListGridEditorComponentProps {
                         override val idsGroupTest: JSArray[Double] = _idsGroupTest
                         override val mode: JSUndefined[Int] = _mode.value
                     }.opt
-                    actionURL = (simpleSyS.simpleSysContextPath + ScenariosTesterContainer.scenarios_Scr_Scenario_ScenarioTest).opt
+                    actionURL = (simpleSyS.simpleSysContextPath + ScenarioTesterContainerShared.scenarios_Scr_Scenario_ScenarioTest).opt
                     callback = {
                         (resp: RPCResponse, data: JSObject, req: RPCRequest) ⇒
                             resp.results.foreach {

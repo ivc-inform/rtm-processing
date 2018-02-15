@@ -12,13 +12,14 @@ import com.simplesys.function._
 import com.simplesys.option.DoubleType._
 import com.simplesys.option.ScOption._
 
-import scala.scalajs.js.annotation.JSExport
+import scala.scalajs.js.annotation.{JSExport, JSExportTopLevel}
 
-@JSExport
+@JSExportTopLevel("StendDrawing extends")
 class StendDrawing extends WebApp{
     self =>
 
     val idScenario = 2.0
+    
     private lazy val constructorFormBase: ConstructorFormBase = new ConstructorFormBase {
 
         override protected val saveControl: JSUndefined[Canvas] = saveButton
@@ -27,7 +28,8 @@ class StendDrawing extends WebApp{
         override protected val codeCmpgn: JSUndefined[String] = "test"
     }
 
-    override protected val loadSchemas: Boolean = com.simplesys.app.loadSchemas
+    override protected val loadSchemas: Boolean = com.simplesys.appCommon.common.loadSchemas
+
     private val saveButton = ToolStripButton.create(
         new ToolStripButtonProps {
 

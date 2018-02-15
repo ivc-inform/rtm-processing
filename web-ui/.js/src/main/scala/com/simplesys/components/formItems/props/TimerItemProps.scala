@@ -29,7 +29,7 @@ class TimerItemProps extends FormItemWithButtonsProps {
     nameStrong = "timerProps".nameStrongOpt
     title = "Свойства".opt
     showTitle = false.opt
-    colSpan = 2.opt
+    colSpan = 2
 
     var startedAt: ScOption[String] = ScNone
     var duration: ScOption[DurationValue] = ScNone
@@ -169,7 +169,7 @@ class TimerItemProps extends FormItemWithButtonsProps {
                             new CanvasItemProps {
                                 nameStrong = "testSetting".nameStrongOpt
                                 showTitle = false.opt
-                                colSpan = 2.opt
+                                colSpan = 2
                                 createCanvas = {
                                     (thisTopLow: classHandler, form: DynamicFormSS, item: DurationItem) =>
                                         thisTop.testInnerForm = DynamicFormSS.create(

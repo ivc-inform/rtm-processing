@@ -4,12 +4,11 @@ import com.simplesys.SmartClient.Drawing.DrawItem
 import com.simplesys.SmartClient.System.{DrawItem, IscArray, isc}
 import com.simplesys.System.Types.ID
 import com.simplesys.System._
-import ru.simplesys.defs.app.scala.container.ListsDataRecord
+import ru.simplesys.defs.app.scala.container.ScenariosListsDataRecord
 
 import scala.annotation.tailrec
 import scala.scalajs.js.annotation.ScalaJSDefined
 
-@ScalaJSDefined
 trait IDandTitle extends JSObject {
     val ID: ID
     val title: String
@@ -53,7 +52,7 @@ case class TemplateObject(drawItems: IscArray[DrawItem]) {
     import com.simplesys.components.drawing.drawItems._
 
     def getElementOfType(_constructor: String): DrawItem = {
-        drawItems.find(_._constructor == _constructor) match {
+        drawItems.find(_._constructor.getOrElse("") == _constructor) match {
             case Some(item) ⇒ item
             case None ⇒ throw new RuntimeException(s"Не найден элемент ${_constructor}.")
         }
@@ -110,13 +109,13 @@ case class TemplateObject(drawItems: IscArray[DrawItem]) {
     def getVariablesState: IscArray[DrawItem] = IscArray(getVariables.filter(_.variableProps.get.asInstanceOf[VariableValue].scopeVisivlity.getOrElse("") == state.toString): _*)
 
     def getLists: IscArray[DrawItem] = IscArray(drawItems.filter(_.listRefs.isDefined): _*)
-    def isList(codeList: String): Boolean = drawItems.filter(_.listRefs.isDefined).find(item ⇒ if (item.listRefs.isEmpty) false else item.listRefs.get.asInstanceOf[ListsDataRecord].code_list == codeList).isDefined
-    def getList(codeList: String): DrawItem = drawItems.filter(_.listRefs.isDefined).find(item ⇒ if (item.listRefs.isEmpty) false else item.listRefs.get.asInstanceOf[ListsDataRecord].code_list == codeList).get
+    def isList(codeList: String): Boolean = drawItems.filter(_.listRefs.isDefined).find(item ⇒ if (item.listRefs.isEmpty) false else item.listRefs.get.asInstanceOf[ScenariosListsDataRecord].code_list.getOrElse("") == codeList).isDefined
+    def getList(codeList: String): DrawItem = drawItems.filter(_.listRefs.isDefined).find(item ⇒ if (item.listRefs.isEmpty) false else item.listRefs.get.asInstanceOf[ScenariosListsDataRecord].code_list.getOrElse("") == codeList).get
 
     def getTimers: IscArray[DrawItem] = IscArray(drawItems.filter(_.timerProps.isDefined): _*)
     def getGroup: IscArray[DrawItem] = IscArray(drawItems.filter(_.groupProps.isDefined): _*)
 
-    def getStartState: DrawItem = drawItems.filter(_._constructor == StartState.typeName).head
+    def getStartState: DrawItem = drawItems.filter(_._constructor.getOrElse("") == StartState.typeName).head
 
     def getIncomingMessage: DrawItem = {
         val startItem: DrawItem = getElementOfType(StartState.typeName)
@@ -167,7 +166,7 @@ case class TemplateObject(drawItems: IscArray[DrawItem]) {
     def gluedVariablesOfTypes(item: DrawItem, returnTypes: Seq[String]): IscArray[DrawItem] = IscArray(gluedVariables(item).filter(item ⇒ returnTypes.contains(item.variableProps.get.asInstanceOf[VariableValue].returnType)): _*)
     def gluedSubProgramsOfTypes(item: DrawItem, returnTypes: Seq[String]): IscArray[DrawItem] = IscArray(gluedSubPrograms(item).filter(item ⇒ returnTypes.contains(item.subProgramProps.get.asInstanceOf[SubProgramValue].returnType)): _*)
 
-    def getTimers(item: DrawItem): IscArray[DrawItem] = IscArray(getGluedElements(item).filter(_._constructor == TimerUnified.typeName).filter(timer ⇒ timer.timerProps.isDefined && timer.outConnectedItems.isDefined && timer.outConnectedItems.get.length > 0): _*)
+    def getTimers(item: DrawItem): IscArray[DrawItem] = IscArray(getGluedElements(item).filter(_._constructor.getOrElse("") == TimerUnified.typeName).filter(timer ⇒ timer.timerProps.isDefined && timer.outConnectedItems.isDefined && timer.outConnectedItems.get.length > 0): _*)
 
     def transitions4NextStates(item: DrawItem): IscArray[DrawItem] = IscArray({
         val transitions: IscArray[DrawItem] = getOutTransitions(item).toSeq

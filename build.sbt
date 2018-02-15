@@ -156,6 +156,8 @@ lazy val `processing-test` = sbtcrossproject.crossProject(JSPlatform, JVMPlatfor
 lazy val `processing-test-js` = `processing-test`.js
 lazy val `processing-test-jvm` = `processing-test`.jvm
 
+
+
 lazy val `web-ui` = sbtcrossproject.crossProject(JSPlatform, JVMPlatform)
   .crossType(sbtcrossproject.CrossType.Pure)
   .settings(CommonSettings.noPublishSettings)
@@ -346,7 +348,13 @@ lazy val `web-ui` = sbtcrossproject.crossProject(JSPlatform, JVMPlatform)
 
           CommonDepsScalaJS.circeExtender.value,
           CommonDepsScalaJS.servletWrapper.value
-      )
+      ),
+      scalacOptions ++= {
+          if (scalaJSVersion.startsWith("0.6."))
+              Seq("-P:scalajs:sjsDefinedByDefault")
+          else
+              Nil
+      }
   )
 
 

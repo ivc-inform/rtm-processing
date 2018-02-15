@@ -7,7 +7,6 @@ import com.simplesys.components.formItems.{GroupValue, LoggingValue}
 
 import scala.scalajs.js.annotation.ScalaJSDefined
 
-@ScalaJSDefined
 trait PropEditorLiveObject extends JSObject {
 
     var ID: JSUndefined[String]

@@ -7,7 +7,6 @@ import com.simplesys.System._
 import scala.scalajs.js
 import scala.scalajs.js.annotation.ScalaJSDefined
 
-@ScalaJSDefined
 trait LoggingValue extends JSObject {
     val sStage: JSUndefined[String]
     val sParentStage: JSUndefined[String]

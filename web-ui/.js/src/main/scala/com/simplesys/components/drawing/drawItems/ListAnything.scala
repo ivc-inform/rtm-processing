@@ -2,7 +2,7 @@ package com.simplesys.components.drawing.drawItems
 
 import com.simplesys.SmartClient.Drawing.drawItem.{AbstractDrawRectCompanion, DrawRect}
 import com.simplesys.System.JSUndefined
-import ru.simplesys.defs.app.scala.container.ListsDataRecord
+import ru.simplesys.defs.app.scala.container.ScenariosListsDataRecord
 
 import scala.scalajs.js
 

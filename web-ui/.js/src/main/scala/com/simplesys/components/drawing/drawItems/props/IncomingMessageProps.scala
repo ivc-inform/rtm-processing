@@ -26,7 +26,7 @@ class IncomingMessageProps extends DrawLinePathSSProps {
                 DataSourceField(
                     new DataSourceFieldProps {
                         name = "ADVISA_categoryCode".opt
-                        `type` = FieldType.enum.opt
+                        `type` = FieldType.enum
                         title = "Код категории".opt
                         validOperators = opersAdvisa.opt
                         valueMap = js.Dictionary[String](

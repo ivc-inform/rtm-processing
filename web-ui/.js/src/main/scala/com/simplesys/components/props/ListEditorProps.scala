@@ -6,7 +6,7 @@ import com.simplesys.SmartClient.Forms.formsItems.props.SelectItemProps
 import com.simplesys.SmartClient.Grids.props.listGrid.ListGridFieldProps
 import com.simplesys.SmartClient.System._
 import com.simplesys.System.Types.FormItemComponentType
-import com.simplesys.app.ListGroupEditor
+import com.simplesys.app.App.ListGroupEditor
 import com.simplesys.components.ListEditor
 import com.simplesys.option.ScOption._
 import ru.simplesys.defs.app.gen.scala.ScalaJSGen._
@@ -34,7 +34,7 @@ class ListEditorProps extends CommonTreeListGridEditorComponentProps {
 
     replacingFieldsList = Seq(
         new ListGridFieldProps {
-            nameStrong = scenarios_Lists_caption_listGroup_NameStrong.opt
+            nameStrong = scenarios_ListGroups_caption_listGroup_NameStrong.opt
             editorType = FormItemComponentType.LookupTreeGridEditorItem
             editorProperties = LookupTreeGridEditorItem(
                 new LookupTreeGridEditorItemProps {

@@ -30,7 +30,7 @@ class SubProgramItemProps extends FormItemWithButtonsProps {
 
     title = "Свойства процедуры".opt
     showTitle = false.opt
-    colSpan = 2.opt
+    colSpan = 2
 
     clearValue = {
         (thiz: classHandler) ⇒

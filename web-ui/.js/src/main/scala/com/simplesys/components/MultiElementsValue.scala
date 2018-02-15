@@ -5,7 +5,6 @@ import com.simplesys.components.drawing.drawItems.{SubProgramValue, VariableValu
 
 import scala.scalajs.js.annotation.ScalaJSDefined
 
-@ScalaJSDefined
 trait MultiElementsValue extends JSObject{
   val subPrograms : JSUndefined[JSDictionary[SubProgramValue]]
   val variables : JSUndefined[JSDictionary[VariableValue]]

@@ -5,7 +5,6 @@ import com.simplesys.System.JSUndefined
 import scala.scalajs.js
 import scala.scalajs.js.annotation.ScalaJSDefined
 
-@ScalaJSDefined
 trait CounterVariableValue extends VariableValue {
     var startValue: JSUndefined[Int]
 }

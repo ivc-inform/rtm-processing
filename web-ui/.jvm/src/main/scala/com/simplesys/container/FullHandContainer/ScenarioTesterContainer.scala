@@ -17,10 +17,6 @@ import scala.util.{Failure, Success, Try}
 import scalaz.NonEmptyList
 import com.simplesys.scalaZ._
 
-object ScenarioTesterContainer {
-    val scenarios_Scr_Scenario_ScenarioTest = "logic/scenarios_Scr_Scenario/ScenarioTest"
-}
-
 @RSTransfer(urlPattern = "/logic/scenarios_Scr_Scenario/ScenarioTest")
 class ScenarioTesterContainer(val request: HttpServletRequest, val response: HttpServletResponse, val servletContext: ServletContext) extends SessionContextSupport with ServletActor {
 

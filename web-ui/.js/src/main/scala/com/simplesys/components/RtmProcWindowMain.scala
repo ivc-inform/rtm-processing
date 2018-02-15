@@ -22,28 +22,28 @@ import com.simplesys.SmartClient.System._
 import com.simplesys.System.Types._
 import com.simplesys.System._
 import com.simplesys.app.App._
-import com.simplesys.function._
+import com.simplesys.appCommon._
+import com.simplesys.appCommon.common._
 import com.simplesys.components.props._
+import com.simplesys.function._
 import com.simplesys.option.DoubleType._
 import com.simplesys.option.ScOption
 import com.simplesys.option.ScOption._
 import ru.simplesys.defs.app.gen.scala.ScalaJSGen._
-import ru.simplesys.defs.app.gen.scala._
-import com.simplesys.appCommon.common._
-import com.simplesys.appCommon._
+import ru.simplesys.defs.app.scala.container.scenariosShared.{PersistenceJournalMessageContainer_Shared, PersistenceJournal_DebugMessageContainer_Shared}
 
 import scala.scalajs.js.ThisFunction1
-import scala.scalajs.js.annotation.{JSExport, ScalaJSDefined}
+import scala.scalajs.js.annotation.{JSExport, JSExportTopLevel, ScalaJSDefined}
 
-@ScalaJSDefined
 trait pkKey extends JSObject {
     val persistence_id: String
     val sequence_number: Long
 }
 
-@JSExport
+@JSExportTopLevel("RtmProcWindowMain")
 class RtmProcWindowMain extends WebTabSetApp {
     self ⇒
+
 
     override protected val loadSchemas = com.simplesys.appCommon.common.loadSchemas
 
@@ -60,8 +60,9 @@ class RtmProcWindowMain extends WebTabSetApp {
     override protected val formItemsJS_admin_User_FRMITM: Seq[FormItem] = FormItemsJS.admin_User_FRMITM
 
     override protected val admin_User_codeGroup_NameStrong: NameStrong = admin_User_codeGroup_Group_NameStrong
+    override protected val admin_User_captionGroup_NameStrong: NameStrong = admin_User_captionGroup_Group_NameStrong
 
-    override protected def getSettingsEditor(): SettingsEditor = SettingsEditor.create(
+    override protected def getSettingsEditor: SettingsEditor = SettingsEditor.create(
         new SettingsEditorProps {
             identifier = self.identifier.opt
             action = s"${simpleSyS.simpleSysContextPath}logic/ChangePassword".opt
@@ -196,14 +197,12 @@ class RtmProcWindowMain extends WebTabSetApp {
                                                                                                 if (field.isDefined) {
                                                                                                     import com.simplesys.System._
 
-                                                                                                    @ScalaJSDefined
                                                                                                     trait RecordElement extends JSObject {
                                                                                                         val element_list: String
                                                                                                         val id_list: Int
                                                                                                         val code_list: String
                                                                                                     }
 
-                                                                                                    @ScalaJSDefined
                                                                                                     trait RecordListEditor extends JSObject {
                                                                                                         val id_list: Int
                                                                                                         val code_list: String
@@ -440,7 +439,7 @@ class RtmProcWindowMain extends WebTabSetApp {
                                                                             new RPCRequestProps {
                                                                                 sendNoQueue = true.opt
                                                                                 timeout = 60000.opt
-                                                                                actionURL = s"${simpleSyS.simpleSysContextPath}${PersistenceJournalMessageContainer.scenarios_PersistenceJournalMessage_Fetch}".opt
+                                                                                actionURL = s"${simpleSyS.simpleSysContextPath}${PersistenceJournalMessageContainer_Shared.scenarios_PersistenceJournalMessage_Fetch}".opt
                                                                                 data = selectedRecord.opt
                                                                                 callback = {
                                                                                     (response: RPCResponse, data: JSUndefined[JSObject], request: RPCRequest) =>
@@ -479,7 +478,7 @@ class RtmProcWindowMain extends WebTabSetApp {
                                             name = "persistance_event_tests".opt
                                             icon = common.state.opt
                                             title = "Событийная информация (test)".ellipsis.opt
-                                            //visibilityIf = (() ⇒ LoggedGroup.isDevsGroup()).toFunc.opt
+                                            //visibilityIf = (() ⇒ LoggedGroup.isDevsGroup.toFunc.opt
                                             click = {
                                                 (target: Canvas, item: MenuSSItem, menu: MenuSS, colNum: JSUndefined[Int]) =>
                                                     val jsonField = HTMLPane.create(
@@ -508,7 +507,7 @@ class RtmProcWindowMain extends WebTabSetApp {
                                                                             new RPCRequestProps {
                                                                                 sendNoQueue = true.opt
                                                                                 timeout = 60000.opt
-                                                                                actionURL = s"${simpleSyS.simpleSysContextPath}${PersistenceJournal_DebugMessageContainer.scenarios_PersistenceJournal_DebugMessage_Fetch}".opt
+                                                                                actionURL = s"${simpleSyS.simpleSysContextPath}${PersistenceJournal_DebugMessageContainer_Shared.scenarios_PersistenceJournal_DebugMessage_Fetch}".opt
                                                                                 data = selectedRecord.opt
                                                                                 callback = {
                                                                                     (response: RPCResponse, data: JSUndefined[JSObject], request: RPCRequest) =>

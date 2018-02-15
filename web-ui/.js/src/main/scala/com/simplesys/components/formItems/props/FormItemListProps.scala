@@ -6,6 +6,7 @@ import com.simplesys.SmartClient.Forms.formsItems.props.FormItemWithButtonsProps
 import com.simplesys.SmartClient.System._
 import com.simplesys.System.Types._
 import com.simplesys.System._
+import com.simplesys.app.App.WindowListEditor
 import com.simplesys.function._
 import com.simplesys.components.formItems.FormItemList
 import com.simplesys.components.props.WindowListEditorProps
@@ -13,7 +14,7 @@ import com.simplesys.components.{ListEditor, PropertyEditorDynamicForm}
 import com.simplesys.option.DoubleType._
 import com.simplesys.option.ScOption._
 import ru.simplesys.defs.app.gen.scala.ScalaJSGen._
-import ru.simplesys.defs.app.scala.container.ListsDataRecord
+import ru.simplesys.defs.app.scala.container.ScenariosListsDataRecord
 
 import scala.scalajs.js
 
@@ -25,7 +26,7 @@ class FormItemListProps extends FormItemWithButtonsProps {
     nameStrong = "listRefs".nameStrongOpt
     title = "Список".opt
     showTitle = false.opt
-    colSpan = 2.opt
+    colSpan = 2
 
     clearValue = {
         (thiz: classHandler) ⇒
@@ -34,7 +35,7 @@ class FormItemListProps extends FormItemWithButtonsProps {
             thiz.innerForm.foreach {
                 innerForm ⇒
                     innerForm.setValue(scenarios_Lists_caption_list_NameStrong.name, null)
-                    innerForm.setValue(scenarios_Lists_caption_listGroup_NameStrong.name, null)
+                    innerForm.setValue(scenarios_ListGroups_caption_listGroup_NameStrong.name, null)
                     innerForm.setValue(scenarios_Lists_code_list_NameStrong.name, null)
                     innerForm.setValue(scenarios_Lists_description_list_NameStrong.name, null)
                     innerForm.setValue(scenarios_Lists_id_list_NameStrong.name, null)
@@ -44,7 +45,7 @@ class FormItemListProps extends FormItemWithButtonsProps {
     }.toThisFunc.opt
 
     setValue = {
-        (thiz: classHandler, value: JSUndefined[ListsDataRecord]) ⇒
+        (thiz: classHandler, value: JSUndefined[ScenariosListsDataRecord]) ⇒
             value.foreach {
                 value ⇒
                     if (value == null)
@@ -54,7 +55,7 @@ class FormItemListProps extends FormItemWithButtonsProps {
                             innerForm ⇒
                                 //isc debugTrap value
                                 innerForm.setValue(scenarios_Lists_caption_list_NameStrong.name, value.caption_list)
-                                innerForm.setValue(scenarios_Lists_caption_listGroup_NameStrong.name, value.caption_listGroup)
+                                innerForm.setValue(scenarios_ListGroups_caption_listGroup_NameStrong.name, value.caption_listGroup)
                                 innerForm.setValue(scenarios_Lists_code_list_NameStrong.name, value.code_list)
                                 innerForm.setValue(scenarios_Lists_description_list_NameStrong.name, value.description_list)
                                 innerForm.setValue(scenarios_Lists_id_list_NameStrong.name, value.id_list)
@@ -123,7 +124,7 @@ class FormItemListProps extends FormItemWithButtonsProps {
                         TextItemSS(
                             new TextItemSSProps {
                                 title = "Наименование группы".opt
-                                nameStrong = scenarios_Lists_caption_listGroup_NameStrong.opt
+                                nameStrong = scenarios_ListGroups_caption_listGroup_NameStrong.opt
                                 readOnlyDisplay = ReadOnlyDisplayAppearance.readOnly.opt
 
                             })).opt
@@ -180,9 +181,9 @@ class FormItemListProps extends FormItemWithButtonsProps {
                                                   (resp: DSResponse, data: JSObject, req: DSRequest) ⇒
 
                                                       import ru.simplesys.defs.app.gen.scala.ScalaJSGen.scenarios_Lists_id_listGroup_ref_NameStrong
-                                                      import ru.simplesys.defs.app.scala.container.ListsDataRecord
+                                                      import ru.simplesys.defs.app.scala.container.ScenariosListsDataRecord
 
-                                                      val listsDataRecord = thisTop.getValue().asInstanceOf[ListsDataRecord]
+                                                      val listsDataRecord = thisTop.getValue().asInstanceOf[ScenariosListsDataRecord]
                                                       //isc debugTrap listsDataRecord
 
                                                       if (listsDataRecord != null) {

@@ -9,7 +9,6 @@ import scala.scalajs.js.annotation.ScalaJSDefined
 
 object SubProgram extends BaseCompanionDrawItem
 
-@ScalaJSDefined
 trait SubProgramValue extends JSObject {
     val returnType: JSUndefined[String]
     val optionType: JSUndefined[Boolean]

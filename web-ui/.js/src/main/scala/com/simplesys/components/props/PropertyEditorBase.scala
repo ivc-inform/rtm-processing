@@ -681,7 +681,7 @@ trait PropertyEditorBase {
         }
     }
 
-    def getOptionSelectedDrawItem(): JSUndefined[DrawItem] = {
+    def getOptionSelectedDrawItem: JSUndefined[DrawItem] = {
 
         val selected = self.canvasEditContext.getSelectedEditNodes()
         if (selected.length != 1)
@@ -691,13 +691,13 @@ trait PropertyEditorBase {
     }
 
     def getSelectedItem(): DrawItem =
-        getOptionSelectedDrawItem().toOption match {
+        getOptionSelectedDrawItem.toOption match {
             case None ⇒ throw new RuntimeException("Не выбран элемент.")
             case Some(x) ⇒ x.liveObject.asInstanceOf[DrawItem]
         }
 
     def getSelectedTypeDrawItem: String = {
-        val item: JSUndefined[DrawItem] = getOptionSelectedDrawItem()
+        val item: JSUndefined[DrawItem] = getOptionSelectedDrawItem
         if (item.isEmpty)
             ""
         else
@@ -705,7 +705,7 @@ trait PropertyEditorBase {
     }
 
     def getSelectedTypeDrawItemTitle: String = {
-        val item = getOptionSelectedDrawItem()
+        val item = getOptionSelectedDrawItem
         //isc debugTrap item.get.defaults
         if (item.isEmpty)
             ""
@@ -751,7 +751,7 @@ trait PropertyEditorBase {
 
     private lazy val keyTabSet = s"${tabSetID}_${getSelectedTypeDrawItem}_selectedTab"
     def getFieldDataSourse(): ScOption[DataSource] = {
-        val drawItem: JSUndefined[DrawItem] = getOptionSelectedDrawItem()
+        val drawItem: JSUndefined[DrawItem] = getOptionSelectedDrawItem
         if (drawItem.isEmpty)
             ScNone
         else {
@@ -850,13 +850,13 @@ trait PropertyEditorBase {
                                                     })
                                             )
 
-                                            val incomingMessageItem: JSUndefined[DrawItem] = getOptionSelectedDrawItem()
+                                            val incomingMessageItem: JSUndefined[DrawItem] = getOptionSelectedDrawItem
 
                                             //isc debugTrap (incomingMessageItem)
                                             if (incomingMessageItem.isEmpty)
                                                 addedOperator.foreach(filterBuilder.fieldDataSource removeSearchOperator _)
                                             else {
-                                                if (incomingMessageItem.get._constructor == IncomingMessage.typeName)
+                                                if (incomingMessageItem.get._constructor.getOrElse("") == IncomingMessage.typeName)
                                                     addedOperator.foreach(filterBuilder.fieldDataSource addSearchOperator _)
                                                 else
                                                     addedOperator.foreach(filterBuilder.fieldDataSource removeSearchOperator _)
@@ -889,7 +889,7 @@ trait PropertyEditorBase {
                                                                 routineProps ⇒
                                                                     routineProps.asInstanceOf[SubProgramValue].returnType.flatMap {
                                                                         returnType ⇒
-                                                                            if (gluedList.isEmpty || gluedList.get.find(_.identifier == drawItem.ID).isEmpty) {
+                                                                            if (gluedList.isEmpty || gluedList.get.find(_.identifier.getOrElse("") == drawItem.ID).isEmpty) {
                                                                                 val res = DataSourceField(
                                                                                     new DataSourceFieldProps {
                                                                                         identifier = drawItem.ID.opt
@@ -941,7 +941,7 @@ trait PropertyEditorBase {
                                                                 routineProps ⇒
                                                                     routineProps.asInstanceOf[VariableValue].returnType.flatMap {
                                                                         returnType ⇒
-                                                                            if (gluedList.isEmpty || gluedList.get.find(_.identifier == drawItem.ID).isEmpty) {
+                                                                            if (gluedList.isEmpty || gluedList.get.find(_.identifier.getOrElse("") == drawItem.ID).isEmpty) {
                                                                                 val res = DataSourceField(
                                                                                     new DataSourceFieldProps {
                                                                                         identifier = drawItem.ID.opt

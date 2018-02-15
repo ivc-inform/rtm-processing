@@ -22,7 +22,7 @@ class VariableItemProps extends FormItemWithButtonsProps {
     nameStrong = "variableProps".nameStrongOpt
     title = "Свойства переменной".opt
     showTitle = false.opt
-    colSpan = 2.opt
+    colSpan = 2
 
     var returnType: ScOption[ScalaTypes] = ScNone
     var routineCode: ScOption[String] = ScNone

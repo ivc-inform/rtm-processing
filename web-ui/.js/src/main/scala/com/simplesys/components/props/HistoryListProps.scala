@@ -10,13 +10,13 @@ import com.simplesys.SmartClient.Foundation.Canvas
 import com.simplesys.SmartClient.System._
 import com.simplesys.System.Types._
 import com.simplesys.System._
-import com.simplesys.{app, appCommon}
-import com.simplesys.function._
+import com.simplesys.appCommon.common._
 import com.simplesys.components.HistoryList
+import com.simplesys.function._
 import com.simplesys.option.ScOption._
 import com.simplesys.option.{ScNone, ScOption}
 import ru.simplesys.defs.app.gen.scala.ScalaJSGen.{DataSourcesJS, FormItemsJS, ListGridFiledsJS, scenarios_Scr_Graph_Copies_version_NameStrong}
-import ru.simplesys.defs.app.scala.container.Scr_Graph_CopiesDataRecord
+import ru.simplesys.defs.app.scala.container.ScenariosScr_Graph_CopiesDataRecord
 
 import scala.scalajs.js
 
@@ -52,10 +52,10 @@ class HistoryListProps extends CommonListGridEditorComponentProps {
                             new MenuSSItemProps {
                                 title = "Загрузить".ellipsis.opt
                                 identifier = "load".opt
-                                icon = appCommon.load.opt
+                                icon = load.opt
                                 click = {
                                     (target: Canvas, item: MenuSSItem, menu: MenuSS, colNum: JSUndefined[Int]) =>
-                                        val record = thiz.getSelectedRecord().asInstanceOf[Scr_Graph_CopiesDataRecord]
+                                        val record = thiz.getSelectedRecord().asInstanceOf[ScenariosScr_Graph_CopiesDataRecord]
                                         //isc debugTrap (record, thiz.recoverGraphFromHistory _)
                                         record.id.foreach(thiz.recoverGraphFromHistory(_, (() ⇒ isc ok "Загрузка выполнена.").toFunc))
                                 }.toFunc.opt

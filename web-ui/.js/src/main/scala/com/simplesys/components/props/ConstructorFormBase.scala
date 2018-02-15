@@ -32,16 +32,15 @@ import com.simplesys.System.Types.HoopSelectionStyle.{HoopSelectionStyle ⇒ _}
 import com.simplesys.System.Types.VisibilityMode.{VisibilityMode ⇒ _}
 import com.simplesys.System.Types._
 import com.simplesys.System._
-import com.simplesys.app.App.{ConstructorForm, HistoryList, PropertyEditorWindow, ConstructorForm ⇒ _, HistoryList ⇒ _, PropertyEditorWindow ⇒ _, _}
-import com.simplesys.appCommon
-import com.simplesys.function._
-import com.simplesys.jdbc.control.clob._
+import com.simplesys.app.App._
+import com.simplesys.appCommon.common._
 import com.simplesys.components._
 import com.simplesys.components.drawing.drawItems.props._
+import com.simplesys.function._
+import com.simplesys.jdbc.control.clob._
 import com.simplesys.option.DoubleType._
 import com.simplesys.option.ScOption._
 import ru.simplesys.defs.app.gen.scala.ScalaJSGen.{DataSourcesJS, scenarios_Scr_Graph_CopiesJsonStorage_scenario_id_NameStrong, scenarios_Scr_Graph_Copies_id_scenario_ref_NameStrong, scenarios_Scr_ScenarioJsonStorage_scenario_id_scenario_NameStrong}
-import com.simplesys.appCommon.common._
 import ru.simplesys.defs.app.scala.container._
 
 import scala.collection.mutable
@@ -51,18 +50,15 @@ import scala.scalajs.js.annotation.ScalaJSDefined
 import scala.scalajs.js.{ThisFunction0, ThisFunction2, UndefOr}
 
 
-@ScalaJSDefined
 trait ErrorStuct extends js.Object {
     val message: JSUndefined[String]
     val stackTrace: JSUndefined[String]
 }
 
-@ScalaJSDefined
 trait Scr_ScenarioJsonStorage_scenarioDataRecordExt extends ScenariosScr_ScenarioJsonStorage_scenarioDataRecord {
     val error: JSUndefined[ErrorStuct]
 }
 
-@ScalaJSDefined
 trait Position extends JSObject {
     val rectTop: Double
     val rectLeft: Double
@@ -205,7 +201,7 @@ trait ConstructorFormBase extends SCComponent[ConstructorForm] with DrawItemComm
         saveState = !disabled
     }
 
-    def getSaveState() = saveState
+    def getSaveState = saveState
 
     protected val identifier: String
 
@@ -235,7 +231,7 @@ trait ConstructorFormBase extends SCComponent[ConstructorForm] with DrawItemComm
         }
     )
 
-    def refresh(): Unit = {
+    def refresh: Unit = {
         recoverGraph(_getJSONGraph())
     }
 
@@ -324,7 +320,7 @@ trait ConstructorFormBase extends SCComponent[ConstructorForm] with DrawItemComm
                 },
                 new MenuSSItemProps {
                     title = "История".ellipsis.opt
-                    icon = appCommon.history.opt
+                    icon = history.opt
                     click = {
                         (target: Canvas, item: MenuSSItem, menu: MenuSS, colNum: JSUndefined[Int]) =>
                             historyEditorRef.foreach(_.markForDestroy())
@@ -945,7 +941,7 @@ trait ConstructorFormBase extends SCComponent[ConstructorForm] with DrawItemComm
         )
     }
 
-    private def propertyEditorDestroyRef(): Unit = propertyEditorRef = jSUndefined
+    private def propertyEditorDestroyRef: Unit = propertyEditorRef = jSUndefined
 
     def setPropertyOnSelection[T <: JSAny](property: String, _value: JSUndefined[T]): void = {
         val selected = canvasEditContext.getSelectedEditNodes()
@@ -1146,7 +1142,7 @@ trait ConstructorFormBase extends SCComponent[ConstructorForm] with DrawItemComm
                     okFunction = {
                         (thiz: classHandler) ⇒
                             updateInBase(
-                                new Scr_ScenarioJsonStorage_scenarioDataRecord {
+                                new ScenariosScr_ScenarioJsonStorage_scenarioDataRecord {
                                     override val id_scenario: UndefOr[Double] = idScenario
                                     override val jsonStorage_scenario: UndefOr[Clob] = editor.getValue().asInstanceOf[String].replace("<plaintext>", "").replace("</plaintext>", "").replaceAll("<div.*</div>", "")
                                 }, {
@@ -1164,14 +1160,14 @@ trait ConstructorFormBase extends SCComponent[ConstructorForm] with DrawItemComm
         })
     }
 
-    def updateInBase(_updateRecord: JSUndefined[Scr_ScenarioJsonStorage_scenarioDataRecord] = jSUndefined, _callback: JSUndefined[Callback] = jSUndefined): Unit =
+    def updateInBase(_updateRecord: JSUndefined[ScenariosScr_ScenarioJsonStorage_scenarioDataRecord] = jSUndefined, _callback: JSUndefined[Callback] = jSUndefined): Unit =
         getJSONGraph({
             (jsonGraph: String) =>
                 dataSource.updateData(
                     updatedRecord = if (_updateRecord.isDefined)
                         _updateRecord.get
                     else
-                        new Scr_ScenarioJsonStorage_scenarioDataRecord {
+                        new ScenariosScr_ScenarioJsonStorage_scenarioDataRecord {
                             override val id_scenario: UndefOr[Double] = idScenario
                             override val jsonStorage_scenario: UndefOr[Clob] = jsonGraph
                         },
@@ -1180,7 +1176,7 @@ trait ConstructorFormBase extends SCComponent[ConstructorForm] with DrawItemComm
                             val errorStruct = resp.errorStruct
                             //isc debugTrap(resp, errorStruct, resp.status == RPCResponseStatic.STATUS_SUCCESS)
 
-                            if (errorStruct.isDefined && errorStruct.get.status == RPCResponseStatic.STATUS_SUCCESS)
+                            if (errorStruct.isDefined && errorStruct.get.status.getOrElse(-1) == RPCResponseStatic.STATUS_SUCCESS)
                                 _callback.foreach(canvasEditContext.fireCallback(_))
                             else if (resp.status == RPCResponseStatic.STATUS_SUCCESS)
                                 _callback.foreach(canvasEditContext.fireCallback(_, "resp", IscArray(resp)))
@@ -1193,7 +1189,7 @@ trait ConstructorFormBase extends SCComponent[ConstructorForm] with DrawItemComm
         getJSONGraph({
             (jsonGraph: String) =>
                 dataSource.addData(
-                    newRecord = new Scr_ScenarioJsonStorage_scenarioDataRecord {
+                    newRecord = new ScenariosScr_ScenarioJsonStorage_scenarioDataRecord {
                         override val id_scenario: UndefOr[Double] = idScenario
                         override val jsonStorage_scenario: UndefOr[Clob] = jsonGraph
                     },
@@ -1201,7 +1197,7 @@ trait ConstructorFormBase extends SCComponent[ConstructorForm] with DrawItemComm
                         (resp: DSResponse, data: JSObject, req: DSRequest) ⇒
                             val errorStruct = resp.errorStruct
 
-                            if (errorStruct.isDefined && errorStruct.get.status == RPCResponseStatic.STATUS_SUCCESS)
+                            if (errorStruct.isDefined && errorStruct.get.status.getOrElse(-1) == RPCResponseStatic.STATUS_SUCCESS)
                                 _callback.foreach(canvasEditContext.fireCallback(_))
 
                     }
@@ -1392,7 +1388,7 @@ trait ConstructorFormBase extends SCComponent[ConstructorForm] with DrawItemComm
 
                 }.toThisFunc.opt
 
-                getInnerHTML = { () => "&nbsp;" }.toFunc.opt
+                getInnerHTML = { (thiz: classHandler) => "&nbsp;" }.toThisFunc.opt
 
                 private def drawRecord(thiz: classHandler, record: TileRecord) = {
 

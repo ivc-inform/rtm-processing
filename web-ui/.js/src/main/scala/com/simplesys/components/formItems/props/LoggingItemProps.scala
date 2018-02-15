@@ -23,7 +23,7 @@ class LoggingItemProps extends FormItemWithButtonsProps {
 
     title = "Свойства протоколирования".opt
     showTitle = false.opt
-    colSpan = 2.opt
+    colSpan = 2
 
     var sStage: ScOption[String] = "stateName.identifier".opt
     var sParentStage: ScOption[String] = "data.asString(\"sParentSate\")".opt

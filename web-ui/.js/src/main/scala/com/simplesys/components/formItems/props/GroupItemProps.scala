@@ -22,7 +22,7 @@ class GroupItemProps extends FormItemWithButtonsProps {
     nameStrong = "groupProps".nameStrongOpt
     title = "Свойства".opt
     showTitle = false.opt
-    colSpan = 2.opt
+    colSpan = 2
 
     var groupName: ScOption[String] = ScNone
     var silenceDuration: ScOption[DurationValue] = ScNone
@@ -136,7 +136,7 @@ class GroupItemProps extends FormItemWithButtonsProps {
                             new CanvasItemProps {
                                 nameStrong = "testSetting".nameStrongOpt
                                 showTitle = false.opt
-                                colSpan = 2.opt
+                                colSpan = 2
                                 createCanvas = {
                                     (thisTopLow: classHandler, form: DynamicFormSS, item: JSUndefined[DurationItem]) =>
                                         thisTop.testInnerForm = DynamicFormSS.create(

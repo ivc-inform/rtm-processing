@@ -3,12 +3,9 @@ package com.simplesys.components.formItems
 import com.simplesys.SmartClient.Forms.formsItems.{AbstractFormItemWithButtonsCompanion, DurationValue, FormItemWithButtons}
 import com.simplesys.SmartClient.System.IscArray
 import com.simplesys.System.{JSObject, JSUndefined}
-import com.simplesys.option.{ScNone, ScOption}
 
 import scala.scalajs.js
-import scala.scalajs.js.annotation.ScalaJSDefined
 
-@ScalaJSDefined
 trait GroupValue extends JSObject {
     val silenceDuration: JSUndefined[DurationValue]
     val testSilenceDuration: JSUndefined[DurationValue]

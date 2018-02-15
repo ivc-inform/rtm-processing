@@ -7,7 +7,6 @@ import scala.scalajs.js.annotation.ScalaJSDefined
 
 object SendMessage extends BaseCompanionDrawItem
 
-@ScalaJSDefined
 trait SendMessageValue extends VariableValue {
     val textMessage: JSUndefined[String]
 }

@@ -7,7 +7,6 @@ import com.simplesys.System._
 import scala.scalajs.js
 import scala.scalajs.js.annotation.ScalaJSDefined
 
-@ScalaJSDefined
 trait VariableValue extends JSObject {
     val returnType: JSUndefined[String]
     val routineCode: JSUndefined[String]

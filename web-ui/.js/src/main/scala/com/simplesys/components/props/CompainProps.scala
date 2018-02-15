@@ -11,7 +11,6 @@ import ru.simplesys.defs.app.gen.scala.ScalaJSGen.{DataSourcesJS, FormItemsJS, L
 
 import scala.scalajs.js.annotation.ScalaJSDefined
 
-@ScalaJSDefined
 trait NewCompainRequestData extends JSObject {
     val active_cmpgn: Boolean
 }

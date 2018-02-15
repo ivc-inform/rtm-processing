@@ -16,9 +16,6 @@ import io.circe.syntax._
 import scala.util.{Failure, Success, Try}
 import scalaz.{NonEmptyList}
 
-object ScenarioUpdateStatusContainer {
-    val scenarios_Scr_Scenario_UpdateStatus = "logic/scenarios_Scr_Scenario/UpdateStatus"
-}
 
 @RSTransfer(urlPattern = "/logic/scenarios_Scr_Scenario/UpdateStatus")
 class ScenarioUpdateStatusContainer(val request: HttpServletRequest, val response: HttpServletResponse, val servletContext: ServletContext) extends SessionContextSupport with ServletActor {

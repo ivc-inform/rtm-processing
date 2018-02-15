@@ -62,7 +62,7 @@ class PersistenceJournalViewProps extends CommonListGridEditorComponentProps {
                         (thiz: classHandler, args: IscArray[JSAny]) =>
                             //isc debugTrac(thiz.getClassName(), thiz.getIdentifier())
 
-                            val items = Seq(deleteMenuItem, refreshMenuItem) ++ ListGridContextMenuProps.otherItems1
+                            val items = Seq(deleteMenuItem(), refreshMenuItem()) ++ ListGridContextMenuProps.otherItems1
 
                             thiz.items = IscArray(items: _*)
                             thiz.Super("initWidget", args)
