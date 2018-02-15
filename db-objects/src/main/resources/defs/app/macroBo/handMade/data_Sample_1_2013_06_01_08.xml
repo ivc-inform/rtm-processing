@@ -1,0 +1,49 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<RootPane xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://simpleSys.ru/xml/library/app" xmlns:isc="http://simpleSys.ru/xml/library/ISC"
+          xsi:schemaLocation="http://simpleSys.ru/xml/library/app http://toucan.simplesys.lan/xml/xsd/v1.0.0-1/schemaApp.xsd">
+    <Bo BoName="Sample_1_2013_06_01_08" GroupName="data" BoCaption="Сообщения" GroupCaption="Данные" Enabled="true"/>
+    <Menus>
+        <Menu>
+            <Native>
+                <isc:MenuDyn>
+                    <isc:Identifier>DefaultListGridEditorMenu</isc:Identifier>
+                    <isc:Items>
+                        <isc:MenuItemDyn key4MergeValue="AnalizeSeparator">
+                            <isc:IsSeparator>true</isc:IsSeparator>
+                        </isc:MenuItemDyn>
+                        <isc:MenuItemDyn key4MergeValue="Analize">
+                            <isc:Click>
+                                <!--<isc:FunctionsFileURL>src/main/webapp/javascript/developed/developedComponents/Analiz.js/</isc:FunctionsFileURL>-->
+                                <isc:FunctionName>analiz()</isc:FunctionName>
+                            </isc:Click>
+                            <isc:Icon>Refresh.png</isc:Icon>
+                            <isc:KeyTitle>Ctrl+A</isc:KeyTitle>
+                            <isc:Keys>
+                                <isc:KeyIdentifier>
+                                    <isc:KeyName>A</isc:KeyName>
+                                    <isc:CtrlKey>true</isc:CtrlKey>
+                                </isc:KeyIdentifier>
+                            </isc:Keys>
+                            <isc:Title Ellipsis="true">Анализ</isc:Title>
+                        </isc:MenuItemDyn>
+                        <isc:MenuItemDyn key4MergeValue="Guid">
+                            <isc:Click>
+                                <!--<isc:FunctionsFileURL>src/main/webapp/javascript/developed/developedComponents/Analiz.js/</isc:FunctionsFileURL>-->
+                                <isc:FunctionName>getGuid()</isc:FunctionName>
+                            </isc:Click>
+                            <isc:Icon></isc:Icon>
+                            <isc:KeyTitle></isc:KeyTitle>
+                            <!--<isc:Keys>
+                                              <isc:KeyIdentifier>
+                                                  <isc:KeyName>A</isc:KeyName>
+                                                  <isc:CtrlKey>true</isc:CtrlKey>
+                                              </isc:KeyIdentifier>
+                                          </isc:Keys>-->
+                            <isc:Title Ellipsis="true">Get GUID</isc:Title>
+                        </isc:MenuItemDyn>
+                    </isc:Items>
+                </isc:MenuDyn>
+            </Native>
+        </Menu>
+    </Menus>
+</RootPane>

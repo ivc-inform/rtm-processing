@@ -1,0 +1,6 @@
+var c1Knob: ScOption[DrawKnob ] = ScNone
+var c2Knob: ScOption[DrawKnob ] = ScNone
+var controlPoint1: ScOption[Point] = ScNone
+var controlPoint2: ScOption[Point] = ScNone
+var endPoint: ScOption[Point] = ScNone
+var startPoint: ScOption[Point] = ScNone

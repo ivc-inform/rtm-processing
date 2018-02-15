@@ -1,0 +1,122 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0.0" targetNamespace="http://simpleSys.ru/xml/library/domains" xmlns="http://simpleSys.ru/xml/library/domains"
+           xmlns:common="http://simpleSys.ru/xml/library/common" xmlns:xsd="undefined">
+
+	<xs:import schemaLocation="http://toucan.simplesys.lan/xml/xsd/v1.0.0-1/common.xsd" namespace="http://simpleSys.ru/xml/library/common"/>
+
+	<xs:element name="DataTypes">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="SimpleDataType" maxOccurs="unbounded" minOccurs="0">
+					<xs:complexType>
+						<xs:all maxOccurs="1">
+							<xs:element name="simpleScalaType">
+								<xs:complexType>
+									<xs:sequence maxOccurs="1">
+										<xs:element name="default" type="common:Any"/>
+										<xs:element name="typeName" type="xs:token"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element type="xs:string" name="dbPrefix"/>
+							<xs:element name="jooqDataType">
+								<xs:complexType>
+									<xs:all>
+										<xs:element name="type" type="xs:token">
+										</xs:element>
+										<xs:element name="length" minOccurs="0" type="xs:integer">
+										</xs:element>
+									</xs:all>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="isc">
+								<xs:complexType>
+									<xs:all>
+										<xs:element name="SimpleType" minOccurs="0">
+											<xs:complexType>
+												<xs:all>
+													<xs:element name="name" type="xs:ID"/>
+													<xs:element name="length" type="xs:integer" minOccurs="0"/>
+													<xs:element name="inheritsFrom" type="xs:token" minOccurs="0"/>
+													<xs:element ref="validOperators" minOccurs="0"/>
+												</xs:all>
+											</xs:complexType>
+										</xs:element>
+									</xs:all>
+								</xs:complexType>
+							</xs:element>
+						</xs:all>
+						<xs:attribute type="xs:string" name="name" use="optional"/>
+					</xs:complexType>
+				</xs:element>
+			</xs:all>
+		</xs:complexType>
+	</xs:element>
+	<xs:simpleType name="OperatorIdType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="equals"/>
+			<xs:enumeration value="notEqual"/>
+			<xs:enumeration value="iEquals"/>
+			<xs:enumeration value="iNotEqual"/>
+			<xs:enumeration value="greaterThan"/>
+			<xs:enumeration value="lessThan"/>
+			<xs:enumeration value="greaterOrEqual"/>
+			<xs:enumeration value="lessOrEqual"/>
+			<xs:enumeration value="contains"/>
+			<xs:enumeration value="startsWith"/>
+			<xs:enumeration value="endsWith"/>
+			<xs:enumeration value="iContains"/>
+			<xs:enumeration value="iStartsWith"/>
+			<xs:enumeration value="iEndsWith"/>
+			<xs:enumeration value="notContains"/>
+			<xs:enumeration value="notStartsWith"/>
+			<xs:enumeration value="notEndsWith"/>
+			<xs:enumeration value="iNotContains"/>
+			<xs:enumeration value="iNotStartsWith"/>
+			<xs:enumeration value="iNotEndsWith"/>
+			<xs:enumeration value="iBetweenInclusive"/>
+			<xs:enumeration value="matchesPattern"/>
+			<xs:enumeration value="iMatchesPattern"/>
+			<xs:enumeration value="containsPattern"/>
+			<xs:enumeration value="iContainsPattern"/>
+			<xs:enumeration value="regexp"/>
+			<xs:enumeration value="iregexp"/>
+			<xs:enumeration value="isNull"/>
+			<xs:enumeration value="notNull"/>
+			<xs:enumeration value="inSet"/>
+			<xs:enumeration value="notInSet"/>
+			<xs:enumeration value="equalsField"/>
+			<xs:enumeration value="notEqualField"/>
+			<xs:enumeration value="iEqualsField"/>
+			<xs:enumeration value="iNotEqualField"/>
+			<xs:enumeration value="greaterThanField"/>
+			<xs:enumeration value="greaterOrEqualField"/>
+			<xs:enumeration value="lessOrEqualField"/>
+			<xs:enumeration value="lessThanField"/>
+			<xs:enumeration value="containsField"/>
+			<xs:enumeration value="startsWithField"/>
+			<xs:enumeration value="endsWithField"/>
+			<xs:enumeration value="iContainsField"/>
+			<xs:enumeration value="iStartsWithField"/>
+			<xs:enumeration value="iEndsWithField"/>
+			<xs:enumeration value="notContainsField"/>
+			<xs:enumeration value="notStartsWithField"/>
+			<xs:enumeration value="notEndsWithField"/>
+			<xs:enumeration value="iNotContainsField"/>
+			<xs:enumeration value="iNotStartsWithField"/>
+			<xs:enumeration value="iNotEndsWithField"/>
+			<xs:enumeration value="and"/>
+			<xs:enumeration value="not"/>
+			<xs:enumeration value="or"/>
+			<xs:enumeration value="between"/>
+			<xs:enumeration value="betweenInclusive"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="validOperators">
+		<xs:complexType>
+			<xs:sequence minOccurs="0">
+				<xs:element name="validOperator" minOccurs="1" maxOccurs="unbounded" type="OperatorIdType"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

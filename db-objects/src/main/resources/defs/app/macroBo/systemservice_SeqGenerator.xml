@@ -1,0 +1,47 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<RootPane xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xmlns="http://simpleSys.ru/xml/library/app"
+          xmlns:isc="http://simpleSys.ru/xml/library/ISC"
+          xsi:schemaLocation="http://simpleSys.ru/xml/library/app http://toucan.simplesys.lan/xml/xsd/v1.0.0-1/schemaApp.xsd">
+    <Bo BoName="SeqGenerator"
+        GroupName="systemservice"
+        BoCaption="Учет последовательных идентификаторов (ID)"
+        GroupCaption="Генератор последовательностей"
+        Enabled="true"/>
+    <MenuPath>
+        <isc:GroupTitle>Генератор последовательностей</isc:GroupTitle>
+        <isc:Identifier>systemservice</isc:Identifier>
+        <isc:Title>Генератор последовательностей</isc:Title>
+        <isc:MenuPath>
+            <isc:Identifier>systemservice_SeqGenerator</isc:Identifier>
+            <isc:Title>Учет последовательных идентификаторов (ID)</isc:Title>
+        </isc:MenuPath>
+    </MenuPath>
+    <RootCanvas>
+        <ListGridEditor>
+            <useSelfName>false</useSelfName>
+            <AutoFetchData>true</AutoFetchData>
+            <AutoSaveEdits>true</AutoSaveEdits>
+            <AutoFitWidthApproach>both</AutoFitWidthApproach>
+            <AutoFitFieldWidths>true</AutoFitFieldWidths>
+            <Identifier>editorsystemservice_SeqGenerator</Identifier>
+            <DataPageSize>simpleSyS.config.dataPageSize</DataPageSize>
+            <DrawAheadRatio>simpleSyS.config.drawAheadRatio</DrawAheadRatio>
+            <InitialSort>
+                <SortSpecifier>
+                    <Property>nameSeq</Property>
+                </SortSpecifier>
+            </InitialSort>
+            <CanEdit>true</CanEdit>
+            <CanSelectCells>false</CanSelectCells>
+            <FetchDelay>500</FetchDelay>
+            <SelectionType>Multiple</SelectionType>
+            <ShowAdvancedFilter>false</ShowAdvancedFilter>
+            <ShowFilterEditor>true</ShowFilterEditor>
+            <ShowRecordComponents>false</ShowRecordComponents>
+            <ShowRecordComponentsByCell>false</ShowRecordComponentsByCell>
+            <TextMatchStyle>txtMchStyleSubstring</TextMatchStyle>
+            <WrapCells>true</WrapCells>
+        </ListGridEditor>
+    </RootCanvas>
+</RootPane>

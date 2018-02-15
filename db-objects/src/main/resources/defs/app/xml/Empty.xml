@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objectSchema xmlns="http://simpleSys.ru/xml/library/bo"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://simpleSys.ru/xml/library/bo http://toucan.simplesys.lan/xml/xsd/v1.0.0-1/schema.xsd">
+</objectSchema>

@@ -1,0 +1,1201 @@
+<?xml version="1.0"?>
+<xs:schema targetNamespace="http://simpleSys.ru/xml/library/ISC" xmlns="http://simpleSys.ru/xml/library/ISC" xmlns:common="http://simpleSys.ru/xml/library/common" attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0.0." xmlns:xsd="undefined">
+
+	<xs:import schemaLocation="http://toucan.simplesys.lan/xml/xsd/v1.0.0-1/common.xsd" namespace="http://simpleSys.ru/xml/library/common"/>
+
+	<xs:simpleType name="JSFileURLType">
+		<xs:restriction base="xs:anyURI"/>
+	</xs:simpleType>
+
+	<xs:complexType name="JSFunction">
+		<xs:all minOccurs="0">
+			<xs:element name="FunctionsFileURL" type="JSFileURLType" minOccurs="0"/>
+			<xs:element name="FunctionName" type="xs:string"/>
+		</xs:all>
+	</xs:complexType>
+	<xs:complexType name="ClassTypeDyn">
+		<xs:all minOccurs="0">
+			<xs:element name="ID" type="xs:token" minOccurs="0"/>
+			<xs:element name="Identifier" type="xs:ID" minOccurs="0"/>
+			<xs:element name="fullClassName" minOccurs="0" type="xs:token"/>
+			<xs:element name="lobName" type="xs:token" minOccurs="0"/>
+			<xs:element name="Group" minOccurs="0" type="xs:string"/>
+			<xs:element name="useSelfName" type="xs:boolean" default="false" minOccurs="0"/>
+		</xs:all>
+		<xs:attribute name="key4MergeValue" type="xs:NCName" use="optional"/>
+	</xs:complexType>
+	<xs:element name="ClassDyn" nillable="true" type="ClassTypeDyn">
+	</xs:element>
+	<xs:simpleType name="VisibilityEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="vsInherit"/>
+			<xs:enumeration value="vsVisible"/>
+			<xs:enumeration value="vsHidden"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="CanvasTypeDyn">
+		<xs:complexContent>
+			<xs:extension base="ClassTypeDyn">
+				<xs:all minOccurs="0">
+					<xs:element name="AutoDraw" type="xs:boolean" minOccurs="0" default="true"/>
+					<xs:element name="Border" type="xs:string" minOccurs="0"/>
+					<xs:element name="Children" minOccurs="0" type="CanvasChildrenJsonList"/>					
+					<xs:element name="Click" type="JSFunction" maxOccurs="1" minOccurs="0"/>					
+					<xs:element name="ContextMenu" minOccurs="0" type="IDREF2"/>
+					<xs:element name="Height" type="PersentNumberType" minOccurs="0"/>
+					<xs:element name="DefaultHeight" type="PersentNumberType" minOccurs="0"/>
+					<xs:element name="LayoutAlign" type="AlignmentEnumDyn" minOccurs="0"/>
+					<xs:element name="MaxHeight" type="xs:integer" minOccurs="0" default="10000"/>
+					<xs:element name="Padding" type="xs:integer" minOccurs="0"/>
+					<xs:element name="ResizeBarTarget" minOccurs="0" type="xs:token"/>
+					<xs:element name="ShowEdges" type="xs:boolean" default="false" minOccurs="0"/>
+					<xs:element name="ShowResizeBar" type="xs:boolean" default="false" minOccurs="0"/>
+					<xs:element name="Visibility" minOccurs="0" type="VisibilityEnum"/>
+					<xs:element name="Width" type="PersentNumberType" minOccurs="0"/>
+					<xs:element name="DefaultWidth" type="PersentNumberType" minOccurs="0"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="CanvasChildrenJsonList">
+		<xs:all minOccurs="0">
+			<xs:element ref="CanvasDyn" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:all>
+	</xs:complexType>
+	<xs:element name="CanvasDyn" type="CanvasTypeDyn" substitutionGroup="ClassDyn"/>
+	<xs:complexType name="MenuPathType">
+		<xs:all minOccurs="1">
+			<xs:element name="GroupTitle" type="xs:string" minOccurs="0"/>
+			<xs:element name="Icon" type="xs:string" minOccurs="0"/>
+			<xs:element name="LargeIcon" minOccurs="0" type="xs:string"/>
+			<xs:element name="VisibilityIf" minOccurs="0" type="JSFunction"/>
+			<xs:element name="Identifier" type="xs:token"/>
+			<xs:element name="Title" type="EllipsisString"/>
+			<xs:element ref="MenuPath" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:all>
+	</xs:complexType>
+	<xs:element name="MenuPath" type="MenuPathType"/>
+	<xs:element name="MenuPathes">
+		<xs:complexType>
+			<xs:all minOccurs="0" maxOccurs="1">
+				<xs:element ref="MenuPath" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:all>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="BoDescriptorType">
+		<xs:attribute name="GroupName" type="xs:string"/>
+		<xs:attribute name="BoName" type="xs:token" use="required"/>
+		<xs:attribute name="Enabled" default="true" type="xs:boolean"/>
+		<xs:attribute name="GroupCaption" type="xs:string"/>
+		<xs:attribute name="BoCaption" type="xs:string"/>
+	</xs:complexType>
+	<xs:complexType name="RootPaneType">
+		<xs:all minOccurs="1">
+			<xs:element name="Bo" type="BoDescriptorType"/>
+			<xs:element ref="DataSources" minOccurs="0"/>
+			<xs:element minOccurs="0" ref="Menus"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="MenuPath" type="MenuPathType"/>
+			<xs:element name="RootCanvas" minOccurs="0" type="RootCanvasType">
+			</xs:element>
+		</xs:all>
+	</xs:complexType>
+	<xs:complexType name="RootCanvasType">
+		<xs:all minOccurs="0">
+			<xs:element ref="CanvasDyn"/>
+		</xs:all>
+	</xs:complexType>
+	<xs:element name="RootPane" type="RootPaneType">
+	</xs:element>
+	<xs:element name="MemberIDREF" type="xs:IDREF"/>
+	<xs:complexType name="MembersJsonListType">
+		<xs:sequence minOccurs="0">
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="CanvasDyn" minOccurs="0"/>
+				<xs:element ref="MemberIDREF" minOccurs="0"/>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="Members" type="MembersJsonListType"/>
+	<xs:complexType name="LayoutSSDynType">
+		<xs:complexContent>
+			<xs:extension base="CanvasTypeDyn">
+				<xs:all minOccurs="0">
+					<xs:element name="Align" type="AlignmentEnumDyn" minOccurs="0"/>
+					<xs:element name="AnimateMembers" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="DefaultLayoutAlign" type="AlignmentEnumDyn" minOccurs="0"/>
+					<xs:element name="LayoutMargin" type="xs:integer" minOccurs="0"/>
+					<xs:element minOccurs="0" ref="Members">
+					</xs:element>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="LayoutSSDyn" substitutionGroup="CanvasDyn" type="LayoutSSDynType"/>
+	<xs:complexType name="HLayoutSSDynType">
+		<xs:complexContent>
+			<xs:extension base="LayoutSSDynType">
+				<xs:all minOccurs="0"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="HLayoutSSDyn" substitutionGroup="LayoutSSDyn" type="HLayoutSSDynType"/>
+	<xs:complexType name="VLayoutSSDynType">
+		<xs:complexContent>
+			<xs:extension base="LayoutSSDynType">
+				<xs:all minOccurs="0"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="VLayoutSSDyn" substitutionGroup="LayoutSSDyn" type="VLayoutSSDynType"/>
+	<xs:complexType name="DataViewSSDynType">
+		<xs:complexContent>
+			<xs:extension base="VLayoutSSDynType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="DataViewSSDyn" substitutionGroup="VLayoutSSDyn" type="DataViewSSDynType"/>
+	<xs:complexType name="ListGridFieldsArrayType">
+		<xs:sequence minOccurs="0">
+			<xs:element minOccurs="0" maxOccurs="unbounded" ref="ListGridFieldDyn"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TreeGridFieldsArrayType">
+		<xs:sequence minOccurs="0">
+			<xs:element minOccurs="0" maxOccurs="unbounded" ref="TreeGridFieldDyn"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BaseGridType">
+		<xs:complexContent>
+			<xs:extension base="VLayoutSSDynType">
+				<xs:all minOccurs="0">
+					<xs:element name="AutoFetchData" type="xs:boolean" minOccurs="0" default="true"/>
+					<xs:element name="AutoFetchTextMatchStyle" type="TextMatchStyleEnum" minOccurs="0"/>
+					<xs:element name="AutoFitWidthApproach" type="AutoFitWidthApproachEnum" minOccurs="0"/>
+					<xs:element name="AutoFitFieldWidths" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="AutoSaveEdits" minOccurs="0" type="xs:boolean"/>
+					<xs:element name="CanAcceptDroppedRecords" minOccurs="0" type="xs:boolean"/>
+					<xs:element name="CanEdit" minOccurs="0" type="xs:boolean" default="false"/>
+					<xs:element name="CanReorderRecords" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="CanSelectCells" minOccurs="0" type="xs:boolean"/>
+					<xs:element name="DataFetchMode" minOccurs="0" type="FetchModeEnum"/>
+					<xs:element name="DataPageSize" minOccurs="0" type="unq" default="50"/>
+					<xs:element name="DrawAheadRatio" type="unq" minOccurs="0"/>
+					<xs:element name="InitialSort" minOccurs="0" type="InitialSortArrayType"/>
+					<xs:element name="EditByCell" minOccurs="0" type="xs:boolean"/>
+					<xs:element name="FetchDelay" type="xs:integer" minOccurs="0" default="300"/>
+					<xs:element name="FilterOnKeypress" type="xs:boolean" minOccurs="0" default="false"/>
+					<xs:element name="RecordComponentPoolingMode" minOccurs="0" type="RecordComponentPoolingModeEnum" default="rcCmpPlMdViewport"/>
+					<xs:element name="SelectionType" minOccurs="0" type="SelectionStyleEnum"/>
+					<xs:element name="ShowFilterEditor" minOccurs="0" type="xs:boolean" default="false"/>
+					<xs:element name="ShowRecordComponents" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="ShowRecordComponentsByCell" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="WrapCells" type="xs:boolean" minOccurs="0"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="BaseGrid" type="BaseGridType" abstract="true" substitutionGroup="VLayoutSSDyn"/>
+	<xs:complexType name="ListGridTypeDyn">
+		<xs:complexContent>
+			<xs:extension base="BaseGridType">
+				<xs:all minOccurs="0">
+					<xs:element name="DataSource" type="IDREF1" minOccurs="0"/>
+					<xs:element minOccurs="0" name="Fields" type="ListGridFieldsArrayType">
+					</xs:element>
+					<xs:element name="DefaultFields" type="ListGridFieldsArrayType" minOccurs="0"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="ListGridDyn" substitutionGroup="BaseGrid" type="ListGridTypeDyn"/>
+	<xs:complexType name="TreeGridTypeDyn">
+		<xs:complexContent>
+			<xs:extension base="BaseGridType">
+				<xs:all minOccurs="0">
+					<xs:element name="ClosedIconSuffix" type="xs:token" minOccurs="0"/>
+					<xs:element name="DataSource" type="IDREF1" minOccurs="0"/>
+					<xs:element name="DropIconSuffix" type="xs:token" minOccurs="0"/>
+					<xs:element minOccurs="0" name="Fields" type="TreeGridFieldsArrayType">
+					</xs:element>
+					<xs:element name="DefaultFields" minOccurs="0" type="TreeGridFieldsArrayType"/>
+					<xs:element name="FolderIcon" type="url" minOccurs="0"/>
+					<xs:element name="NodeIcon" type="url" maxOccurs="1" minOccurs="0"/>
+					<xs:element name="OpenIconSuffix" type="xs:token" minOccurs="0"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="TreeGridDyn" substitutionGroup="BaseGrid" type="TreeGridTypeDyn"/>
+	<xs:complexType name="ListGridEditorTypeDyn">
+		<xs:complexContent>
+			<xs:extension base="ListGridTypeDyn">
+				<xs:all minOccurs="0">
+					<xs:element name="CanReparentNodes" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="InitWidget" type="JSFunction" minOccurs="0"/>
+					<xs:element name="FuncMenu" type="IDREF2" minOccurs="0"/>
+					<xs:element name="ShowAdvancedFilter" minOccurs="0" type="xs:boolean" default="false"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="ListGridEditorDyn" substitutionGroup="ListGridDyn" type="ListGridEditorTypeDyn"/>
+	<xs:complexType name="TreeGridEditorTypeDyn">
+		<xs:complexContent>
+			<xs:extension base="TreeGridTypeDyn">
+				<xs:all minOccurs="0">
+					<xs:element name="CanReparentNodes" type="xs:boolean" minOccurs="0"/>					
+					<xs:element name="InitWidget" type="JSFunction" minOccurs="0"/>
+					<xs:element name="FuncMenu" type="IDREF2" minOccurs="0"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="TreeGridEditorDyn" substitutionGroup="TreeGridDyn" type="TreeGridEditorTypeDyn"/>
+	<xs:complexType name="FieldsListArrayType">
+		<xs:sequence minOccurs="0">
+			<xs:element ref="ListGridFieldDyn" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="FieldsTreeArrayType">
+		<xs:sequence minOccurs="0">
+			<xs:element ref="TreeGridFieldDyn" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="IDREF1">
+		<xs:restriction base="xs:IDREF"/>
+	</xs:simpleType>
+	<xs:complexType name="TreeListGridEditorTypeDyn">
+		<xs:complexContent>
+			<xs:extension base="HLayoutSSDynType">
+				<xs:all minOccurs="0" maxOccurs="1">
+					<xs:element name="AutoFetchData" minOccurs="0" type="xs:boolean"/>
+					<xs:element name="AutoFetchTextMatchStyleList" minOccurs="0" type="TextMatchStyleEnum"/>
+					<xs:element name="AutoFetchTextMatchStyleTree" minOccurs="0" type="TextMatchStyleEnum"/>
+					<xs:element name="AutoSaveListEdits" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="AutoSaveTreeEdits" minOccurs="0" type="xs:boolean"/>
+					<xs:element name="CanAcceptDroppedRecordsTree" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="CancelEditingConfirmationMessageList" type="xs:string" minOccurs="0"/>
+					<xs:element name="CancelEditingConfirmationMessageTree" type="xs:string" minOccurs="0"/>
+					<xs:element name="CanEditList" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="CanEditTree" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="CanSelectCellsList" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="CanSelectCellsTree" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="CreateListRecordComponent" type="JSFunction" minOccurs="0"/>
+					<xs:element name="CreateTreeRecordComponent" minOccurs="0" type="JSFunction"/>
+					<xs:element name="ContextMenuListGridEditor" type="IDREF2" minOccurs="0"/>
+					<xs:element name="ContextMenuTreeGridEditor" type="IDREF2" maxOccurs="1" minOccurs="0"/>
+					<xs:element name="DataFetchModeList" type="FetchModeEnum" minOccurs="0"/>
+					<xs:element name="DataFetchModeTree" type="FetchModeEnum" minOccurs="0"/>
+					<xs:element name="DataPageSizeList" type="unq" minOccurs="0"/>
+					<xs:element name="DataPageSizeTree" type="unq" minOccurs="0"/>
+					<xs:element name="DrawAheadRatioList" minOccurs="0" type="unq"/>
+					<xs:element name="DrawAheadRatioTree" type="unq" minOccurs="0"/>
+					<xs:element name="InitialSortList" type="InitialSortArrayType" minOccurs="0"/>
+					<xs:element name="InitialSortTree" minOccurs="0" type="InitialSortArrayType"/>
+					<xs:element name="DataSourceList" type="IDREF1" minOccurs="0"/>
+					<xs:element name="DataSourceTree" type="IDREF1" minOccurs="0"/>
+					<xs:element name="EditByCellList" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="EditByCellTree" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="EmptyMessageList" type="xs:string" minOccurs="0"/>
+					<xs:element name="EnableChangeSelectionTree" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="EmptyMessageTree" type="xs:string" minOccurs="0"/>
+					<xs:element name="FieldsList" minOccurs="0" type="FieldsListArrayType"/>
+					<xs:element name="DefaultFieldsList" type="FieldsListArrayType" minOccurs="0"/>
+					<xs:element name="FieldsTree" minOccurs="0" type="FieldsTreeArrayType"/>
+					<xs:element name="DefaultFieldsTree" type="FieldsTreeArrayType" minOccurs="0"/>
+					<xs:element name="FetchListDelay" type="xs:integer" minOccurs="0"/>
+					<xs:element name="FetchTreeDelay" type="xs:integer" minOccurs="0"/>
+					<xs:element name="FilterListOnKeypress" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="FilterTreeOnKeypress" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="FolderDrop" type="JSFunction" minOccurs="0"/>
+					<xs:element name="FolderDropImageTree" type="url" minOccurs="0"/>
+					<xs:element name="FolderIconTree" type="url" minOccurs="0"/>
+					<xs:element minOccurs="0" name="FuncMenu" type="IDREF2"/>
+					<xs:element name="InitWidget" type="JSFunction" minOccurs="0"/>
+					<xs:element name="HeightList" type="xs:integer" minOccurs="0"/>
+					<xs:element name="HeightTree" type="xs:integer" minOccurs="0"/>
+					<xs:element name="LoadDataOnDemandTree" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="NodeIconTree" type="url" minOccurs="0"/>
+					<xs:element name="ResizedTree" type="JSFunction" minOccurs="0"/>
+					<xs:element name="SelectionTypeList" minOccurs="0" type="SelectionStyleEnum"/>
+					<xs:element name="SelectionTypeTree" type="SelectionStyleEnum" minOccurs="0"/>
+					<xs:element name="ShowListAdvancedFilter" type="xs:boolean" default="false" minOccurs="0"/>
+					<xs:element name="ShowTreeAdvancedFilter" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="ShowListFilterEditor" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="ShowTreeFilterEditor" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="ShowListRecordComponents" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="ShowTreeRecordComponents" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="ShowListRecordComponentsByCell" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="ShowTreeRecordComponentsByCell" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="ShowOpenIconsTree" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="TreeIdentifier" type="common:GUID" minOccurs="0"/>
+					<xs:element name="WidthList" type="xs:integer" minOccurs="0"/>
+					<xs:element name="WidthTree" type="xs:integer" minOccurs="0"/>
+					<xs:element name="WrapListCells" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="WrapTreeCells" type="xs:boolean" minOccurs="0"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="TreeListGridEditorDyn" type="TreeListGridEditorTypeDyn" substitutionGroup="LayoutSSDyn"/>
+	<xs:simpleType name="DSDataFormatEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="dtftJSON"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="FieldEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="ftNull"/>
+			<xs:enumeration value="ftText"/>
+			<xs:enumeration value="ftBoolean"/>
+			<xs:enumeration value="ftInteger"/>
+			<xs:enumeration value="ftFloat"/>
+			<xs:enumeration value="ftDate"/>
+			<xs:enumeration value="ftTime"/>
+			<xs:enumeration value="ftDateTime"/>
+			<xs:enumeration value="ftEnum"/>
+			<xs:enumeration value="ftIntEnum"/>
+			<xs:enumeration value="ftSequence"/>
+			<xs:enumeration value="ftLink"/>
+			<xs:enumeration value="ftImage"/>
+			<xs:enumeration value="ftImageFile"/>
+			<xs:enumeration value="ftAny"/>
+			<xs:enumeration value="ftModifier"/>
+			<xs:enumeration value="ftModifierTimestamp"/>
+			<xs:enumeration value="ftCreator"/>
+			<xs:enumeration value="ftCreatorTimestamp"/>
+			<xs:enumeration value="ftPassword"/>
+			<xs:enumeration value="ftCustom"/>
+			<xs:enumeration value="ftNtext"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="OperatorId" type="OperatorIdEnum1"/>
+	<xs:complexType name="ValidOperatorsJsonList" abstract="false">
+		<xs:sequence minOccurs="0">
+			<xs:element ref="OperatorId" maxOccurs="unbounded" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ValueType">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="ID" type="xs:token"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="ValueMapArrayType">
+		<xs:sequence minOccurs="0">
+			<xs:element name="Value" minOccurs="0" maxOccurs="unbounded" type="ValueType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DataSourceFieldTypeDyn">
+		<xs:complexContent>
+			<xs:extension base="ClassTypeDyn">
+				<xs:all minOccurs="0">
+					<xs:element name="CanEdit" minOccurs="0" type="xs:boolean"/>
+					<xs:element name="Discriminator" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="JObjectFieldName" type="xs:string" minOccurs="0"/>
+					<xs:element name="Hidden" type="xs:boolean" default="false" minOccurs="0"/>
+					<xs:element name="ForeignField" type="xs:token" minOccurs="0"/>
+					<xs:element name="ForeignKey" minOccurs="0" type="xs:token"/>
+					<xs:element name="Length" type="xs:integer" minOccurs="0"/>
+					<xs:element name="Name" type="xs:string" minOccurs="0"/>
+					<xs:element name="GenBySeq" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="GetterType" type="xs:token" minOccurs="0"/>
+					<xs:element name="JdbcType" type="xs:string" minOccurs="0"/>
+					<xs:element name="Calculated" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="Lookup" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="CaptionClassLookup" type="xs:token" minOccurs="0"/>
+					<xs:element name="PrimaryKey" type="xs:boolean" default="false" minOccurs="0"/>
+					<xs:element name="Required" type="xs:boolean" default="false" minOccurs="0"/>
+					<xs:element name="Title" type="EllipsisString" minOccurs="0"/>
+					<xs:element name="Type" minOccurs="0" type="xs:token"/>					
+					<xs:element name="ValidOperators" minOccurs="0" type="ValidOperatorsJsonList"/>
+					<xs:element name="ValueMap" minOccurs="0" type="ValueMapArrayType">
+					</xs:element>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="DataSourceFieldDyn" type="DataSourceFieldTypeDyn" substitutionGroup="ClassDyn">
+	</xs:element>
+	<xs:simpleType name="DSProtocolEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="dsprtNull"/>
+			<xs:enumeration value="dsprtGetParams"/>
+			<xs:enumeration value="dsprtPostParams"/>
+			<xs:enumeration value="dsprtPostXML"/>
+			<xs:enumeration value="dsprtSoap"/>
+			<xs:enumeration value="dsprtPostMessage"/>
+			<xs:enumeration value="dsprtClientCustom"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="DSOperationEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="dsOptTypeFetch"/>
+			<xs:enumeration value="dsOptTypeAdd"/>
+			<xs:enumeration value="dsOptTypeUpdate"/>
+			<xs:enumeration value="dsOptTypeRemove"/>
+			<xs:enumeration value="dsOptTypeValidate"/>
+			<xs:enumeration value="dsOptTypeCastom"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="OperationBindingTypeDyn">
+		<xs:complexContent>
+			<xs:extension base="ClassTypeDyn">
+				<xs:all minOccurs="0">
+					<xs:element name="DataFormat" type="DSDataFormatEnum"/>
+					<xs:element name="DataProtocol" type="DSProtocolEnum"/>
+					<xs:element name="OperationType" type="DSOperationEnum"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="OperationBindingDyn" type="OperationBindingTypeDyn" substitutionGroup="ClassDyn">
+	</xs:element>
+	<xs:simpleType name="url">
+		<xs:restriction base="xs:anyURI"/>
+	</xs:simpleType>
+	<xs:simpleType name="urlWithVar">
+		<xs:restriction base="xs:anyURI"/>
+	</xs:simpleType>
+	<xs:simpleType name="unq">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:complexType name="DataSourceTypeDyn">
+		<xs:complexContent>
+			<xs:extension base="ClassTypeDyn">
+				<xs:all maxOccurs="1" minOccurs="0">
+					<xs:element name="AutoJoinTransactions" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="DataURL" minOccurs="0" type="urlWithVar"/>
+					<xs:element name="DisableQueuing" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="JsonPrefix" type="xs:string" minOccurs="0"/>
+					<xs:element name="JsonSuffix" type="xs:string" minOccurs="0"/>
+					<xs:element name="Fields" minOccurs="0" type="DataSourcesFieldsArrayType">
+					</xs:element>
+					<xs:element name="OperationBindings" minOccurs="0" type="OperationsBindingArrayType">
+					</xs:element>
+					<xs:element name="WildRecord" type="WildRecordArrayType" minOccurs="0"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="WildRecordColumnDynType">
+		<xs:sequence minOccurs="0">
+			<xs:element name="Name" type="xs:token"/>
+			<xs:element name="Value" type="common:Any"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="DataSourceDyn" type="DataSourceTypeDyn" substitutionGroup="ClassDyn"/>
+	<xs:complexType name="RestDataSourceTypeDyn">
+		<xs:complexContent>
+			<xs:extension base="DataSourceTypeDyn">
+				<xs:all minOccurs="0">
+					<xs:element name="DataFormat" type="DSDataFormatEnum"/>					
+					<xs:element name="AddDataURL" type="urlWithVar" minOccurs="0"/>
+					<xs:element name="FetchDataURL" type="urlWithVar" minOccurs="0"/>
+					<xs:element name="RemoveDataURL" type="urlWithVar" minOccurs="0"/>
+					<xs:element name="UpdateDataURL" type="urlWithVar" minOccurs="0"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="RestDataSourceDyn" type="RestDataSourceTypeDyn" substitutionGroup="DataSourceDyn">
+	</xs:element>
+	<xs:element name="RestDataSourceSSDyn" type="RestDataSourceSSTypeDyn" substitutionGroup="RestDataSourceDyn"/>
+	<xs:complexType name="RestDataSourceSSTypeDyn">
+		<xs:complexContent>
+			<xs:extension base="RestDataSourceTypeDyn"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="DataSourcesFieldsArrayType">
+		<xs:sequence minOccurs="0" maxOccurs="1">
+			<xs:element ref="DataSourceFieldDyn" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="OperationsBindingArrayType">
+		<xs:sequence maxOccurs="1" minOccurs="0">
+			<xs:element ref="OperationBindingDyn" maxOccurs="4" minOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DataSourcesType" abstract="false">
+		<xs:sequence minOccurs="0">
+			<xs:element ref="DataSourceDyn" maxOccurs="unbounded" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="DataSources" type="DataSourcesType">
+	</xs:element>
+	<xs:complexType name="MenuItemsArrayType">
+		<xs:sequence minOccurs="0">
+			<xs:element ref="MenuItemDyn" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="MenuTypeDyn" abstract="false">
+		<xs:complexContent>
+			<xs:extension base="VLayoutSSDynType">
+				<xs:all minOccurs="0">
+					<xs:element name="ShadowDepth" type="xs:integer" default="0" maxOccurs="1" minOccurs="0"/>
+					<xs:element name="ShowShadow" type="xs:boolean" default="false" minOccurs="0"/>
+					<xs:element name="Items" maxOccurs="1" minOccurs="0" type="MenuItemsArrayType">
+					</xs:element>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="MenuDyn" type="MenuTypeDyn" substitutionGroup="VLayoutSSDyn"/>
+	<xs:complexType name="MenusType">
+		<xs:sequence minOccurs="0">
+			<xs:element ref="MenuDyn" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="Menus" type="MenusType">
+	</xs:element>
+	<xs:complexType name="ListGridFieldTypeDyn">
+		<xs:complexContent>
+			<xs:extension base="ClassTypeDyn">
+				<xs:all minOccurs="0">
+					<xs:element name="Changed" minOccurs="0" type="JSFunction"/>
+					<xs:element name="Hidden" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="Name" type="xs:string" minOccurs="1"/>
+					<xs:element name="Editor" type="EditorEnum" minOccurs="0" default="TextItem"/>
+					<xs:element name="ValueMap" minOccurs="0" type="ValueMapType"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="ListGridFieldDyn" type="ListGridFieldTypeDyn" substitutionGroup="ClassDyn"/>
+	<xs:complexType name="TreeGridFieldTypeDyn">
+		<xs:complexContent>
+			<xs:extension base="ListGridFieldTypeDyn"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="TreeGridFieldDyn" type="TreeGridFieldTypeDyn" substitutionGroup="ListGridFieldDyn"/>
+	<xs:simpleType name="SelectionStyleEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="slStlSingle"/>
+			<xs:enumeration value="slStlMultiple"/>
+			<xs:enumeration value="slStlSimple"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="ValueMapType">
+		<xs:sequence>
+			<xs:element name="Tuple" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="key" type="xs:string"/>
+						<xs:element name="Value" type="common:Any"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="RecordTypeDyn">
+		<xs:complexContent>
+			<xs:extension base="ClassTypeDyn">
+				<xs:all minOccurs="0"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="RecordDyn" type="RecordTypeDyn" substitutionGroup="ClassDyn"/>
+	<xs:complexType name="ListGridRecordTypeDyn">
+		<xs:complexContent>
+			<xs:extension base="RecordTypeDyn">
+				<xs:all minOccurs="0"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="ListGridRecordDyn" type="ListGridRecordTypeDyn" substitutionGroup="RecordDyn"/>
+	<xs:complexType name="KeyIdentifierType" abstract="false">
+		<xs:complexContent>
+			<xs:extension base="ClassTypeDyn">
+				<xs:all minOccurs="0">
+					<xs:element name="KeyName" type="xs:string"/>
+					<xs:element name="AltKey" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="CtrlKey" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="ShiftKey" type="xs:boolean" minOccurs="0"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="Enable4LoginType">
+		<xs:sequence minOccurs="0">
+			<xs:element name="Login" minOccurs="0" maxOccurs="unbounded" type="xs:token"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="KeyIdentifier" type="KeyIdentifierType" substitutionGroup="ClassDyn"/>
+	<xs:complexType name="MenuItemTypeDyn">
+		<xs:complexContent>
+			<xs:extension base="ListGridRecordTypeDyn">
+				<xs:all minOccurs="0">
+					<xs:element name="Checked" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="Click" type="JSFunction" minOccurs="0"/>
+					<xs:element name="VisibilityIf" minOccurs="0" type="JSFunction"/>
+					<xs:element name="EnableIf" type="JSFunction" minOccurs="0"/>
+					<xs:element name="Enable4Login" minOccurs="0" type="Enable4LoginType"/>
+					<xs:element name="Icon" type="url" minOccurs="0"/>
+					<xs:element name="IdArrayItem" type="xs:string" minOccurs="0"/>
+					<xs:element name="IsSeparator" type="xs:boolean" minOccurs="0"/>					
+					<xs:element name="KeyTitle" type="xs:string" minOccurs="0"/>
+					<xs:element name="Keys" minOccurs="0" type="KeysArrayType"/>
+					<xs:element name="Name" type="xs:string" minOccurs="0"/>
+					<xs:element name="Submenu" minOccurs="0" type="MenuTypeDyn"/>
+					<xs:element name="Title" type="EllipsisString" minOccurs="0"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="KeysArrayType">
+		<xs:all minOccurs="0">
+			<xs:element ref="KeyIdentifier" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:all>
+	</xs:complexType>
+	<xs:element name="MenuItemDyn" type="MenuItemTypeDyn" substitutionGroup="ListGridRecordDyn"/>
+	<xs:complexType name="EllipsisString">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="Ellipsis" type="xs:boolean"/>
+				<xs:attribute name="key4MergeValue" type="xs:NCName"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="FormItemTypeDyn">
+		<xs:complexContent>
+			<xs:extension base="ClassTypeDyn">
+				<xs:all minOccurs="0">
+					<xs:element name="Name" minOccurs="1" type="xs:token"/>
+					<xs:element name="RowSpan" type="xs:integer" minOccurs="0"/>
+					<xs:element name="ColSpan" type="xs:integer" minOccurs="0"/>
+					<xs:element name="StartRow" type="xs:integer" minOccurs="0"/>
+					<xs:element name="EndRow" type="xs:integer" minOccurs="0"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="FormItemDyn" substitutionGroup="ClassDyn" type="FormItemTypeDyn"/>
+	<xs:complexType name="SpacerItemTypeDyn">
+		<xs:complexContent>
+			<xs:extension base="FormItemTypeDyn"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="SpacerItemDyn" type="SpacerItemTypeDyn" substitutionGroup="FormItemDyn"/>
+	<xs:simpleType name="EditorEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="FileItem"/>
+			<xs:enumeration value="RichTextItem"/>
+			<xs:enumeration value="FormItemEventInfo"/>
+			<xs:enumeration value="FormItem"/>
+			<xs:enumeration value="FormItemIcon"/>
+			<xs:enumeration value="CanvasItem"/>
+			<xs:enumeration value="TextItem"/>
+			<xs:enumeration value="FloatItem"/>
+			<xs:enumeration value="BlurbItem"/>
+			<xs:enumeration value="ButtonItem"/>
+			<xs:enumeration value="PickList"/>
+			<xs:enumeration value="PickListMenu"/>
+			<xs:enumeration value="SelectItem"/>
+			<xs:enumeration value="SelectOtherItem"/>
+			<xs:enumeration value="CheckboxItem"/>
+			<xs:enumeration value="NativeCheckboxItem"/>
+			<xs:enumeration value="HeaderItem"/>
+			<xs:enumeration value="SectionItem"/>
+			<xs:enumeration value="HiddenItem"/>
+			<xs:enumeration value="StaticTextItem"/>
+			<xs:enumeration value="LinkItem"/>
+			<xs:enumeration value="PasswordItem"/>
+			<xs:enumeration value="RadioGroupItem"/>
+			<xs:enumeration value="ResetItem"/>
+			<xs:enumeration value="DateItem"/>
+			<xs:enumeration value="DateTimeItem"/>
+			<xs:enumeration value="SpacerItem"/>
+			<xs:enumeration value="RowSpacerItem"/>
+			<xs:enumeration value="SubmitItem"/>
+			<xs:enumeration value="CancelItem"/>
+			<xs:enumeration value="TextAreaItem"/>
+			<xs:enumeration value="AutoFitTextAreaItem"/>
+			<xs:enumeration value="TimeItem"/>
+			<xs:enumeration value="ToolbarItem"/>
+			<xs:enumeration value="UploadItem"/>
+			<xs:enumeration value="ComboBoxItem"/>
+			<xs:enumeration value="MultiComboBoxItem"/>
+			<xs:enumeration value="MultiFileItem"/>
+			<xs:enumeration value="MultiFilePicker"/>
+			<xs:enumeration value="SpinnerItem"/>
+			<xs:enumeration value="SliderItem"/>
+			<xs:enumeration value="ColorItem"/>
+			<xs:enumeration value="PickTreeItem"/>
+			<xs:enumeration value="IPickTreeItem"/>
+			<xs:enumeration value="ViewFileItem"/>
+			<xs:enumeration value="DataPathItem"/>
+			<xs:enumeration value="RelativeDateItem"/>
+			<xs:enumeration value="DateRangeItem"/>
+			<xs:enumeration value="DateRange"/>
+			<xs:enumeration value="DateRangeDialog"/>
+			<xs:enumeration value="MiniDateRangeItem"/>
+			<xs:enumeration value="PresetCriteriaItem"/>
+			<xs:enumeration value="PresetDateRangeItem"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="TabsArrayType">
+		<xs:sequence minOccurs="0">
+			<xs:element ref="TabDyn" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TabSetTypeDyn">
+		<xs:complexContent>
+			<xs:extension base="CanvasTypeDyn">
+				<xs:all minOccurs="0">
+					<xs:element name="CloseClick" minOccurs="0" type="JSFunction"/>
+					<xs:element name="Tabs" minOccurs="0" type="TabsArrayType">
+					</xs:element>
+					<xs:element name="SelectedTab" type="xs:integer" minOccurs="0"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="TabSetSSTypeDyn">
+		<xs:complexContent>
+			<xs:extension base="TabSetTypeDyn"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="TabSetDyn" type="TabSetTypeDyn" substitutionGroup="CanvasDyn"/>
+	<xs:element name="TabSetSSDyn" type="TabSetSSTypeDyn" substitutionGroup="TabSetDyn"/>
+	<xs:complexType name="TabDynType">
+		<xs:complexContent>
+			<xs:extension base="ClassTypeDyn">
+				<xs:all minOccurs="0">
+					<xs:element minOccurs="0" name="Pane" type="CanvasTypeDyn"/>
+					<xs:element name="Title" type="EllipsisString"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="TabDyn" type="TabDynType" substitutionGroup="ClassDyn"/>
+	<xs:simpleType name="AlignmentEnumDyn">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="AlCenter"/>
+			<xs:enumeration value="AlLeft"/>
+			<xs:enumeration value="AlRight"/>
+			<xs:enumeration value="ValTop"/>
+			<xs:enumeration value="ValBottom"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="ToolStripTypeDyn">
+		<xs:complexContent>
+			<xs:extension base="LayoutSSDynType">
+				<xs:all minOccurs="0">
+					<xs:element name="GroupTitleAlign" minOccurs="0" type="AlignmentEnumDyn"/>
+					<xs:element name="GroupTitleOrientation" minOccurs="0" type="AlignmentEnumDyn"/>
+					<xs:element name="MembersMargin" minOccurs="0" type="xs:integer"/>
+					<xs:element name="Overflow" type="OverflowEnumType" minOccurs="0"/>
+					<xs:element name="SeparatorSize" type="xs:integer" minOccurs="0" default="8"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="ToolStripDyn" type="ToolStripTypeDyn" substitutionGroup="LayoutSSDyn"/>
+	<xs:simpleType name="OverflowEnumType">
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="visible"/>
+			<xs:enumeration value="hidden"/>
+			<xs:enumeration value="auto"/>
+			<xs:enumeration value="scroll"/>
+			<xs:enumeration value="clip-h"/>
+			<xs:enumeration value="clip-v"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="RibbonBarTypeDyn">
+		<xs:complexContent>
+			<xs:extension base="ToolStripTypeDyn"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="RibbonBarDyn" type="RibbonBarTypeDyn" substitutionGroup="ToolStripDyn"/>
+	<xs:complexType name="StatefulCanvasTypeDyn">
+		<xs:complexContent>
+			<xs:extension base="CanvasTypeDyn">
+				<xs:all minOccurs="0">
+					<xs:element name="Title" type="EllipsisString" minOccurs="0"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="StatefulCanvasDyn" type="StatefulCanvasTypeDyn" substitutionGroup="CanvasDyn"/>
+	<xs:simpleType name="IconOrientationEnumDyn">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="IoLeft"/>
+			<xs:enumeration value="IoCenter"/>
+			<xs:enumeration value="IoRight"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="ButtonTypeDyn">
+		<xs:complexContent>
+			<xs:extension base="StatefulCanvasTypeDyn">
+				<xs:all minOccurs="0">
+					<xs:element name="IconOrientation" type="IconOrientationEnumDyn" minOccurs="0"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="ButtonDyn" type="ButtonTypeDyn" substitutionGroup="StatefulCanvasDyn"/>
+	<xs:simpleType name="IconButtonOrientationEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="icbtnOrntHorizontal"/>
+			<xs:enumeration value="icbtnOrntVertical"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="IconButtonTypeDyn">
+		<xs:complexContent>
+			<xs:extension base="ButtonTypeDyn">
+				<xs:all minOccurs="0">
+					<xs:element name="Icon" minOccurs="0" type="url"/>
+					<xs:element name="LargeIcon" minOccurs="0" type="url"/>
+					<xs:element name="Orientation" minOccurs="0" type="IconButtonOrientationEnum"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="IconButtonSSDyn" type="IconButtonTypeDyn" substitutionGroup="ButtonDyn"/>
+	<xs:simpleType name="MenuAnimationEffectEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="mnuAnimEffctFade"/>
+			<xs:enumeration value="mnuAnimEffctSlide"/>
+			<xs:enumeration value="mnuAnimEffctWipe"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="IconMenuButtonTypeDyn">
+		<xs:complexContent>
+			<xs:extension base="IconButtonTypeDyn">
+				<xs:all minOccurs="0">
+					<xs:element name="Menu" type="MenuTypeDyn" minOccurs="0"/>
+					<xs:element name="MenuAnimationEffect" type="MenuAnimationEffectEnum" minOccurs="0"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="IconMenuButtonDyn" type="IconMenuButtonTypeDyn" substitutionGroup="IconButtonSSDyn"/>
+	<xs:complexType name="IconMenuButtonTypeSSDyn">
+		<xs:complexContent>
+			<xs:extension base="IconMenuButtonTypeDyn"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="IconMenuButtonSSDyn" type="IconMenuButtonTypeSSDyn" substitutionGroup="IconMenuButtonDyn"/>
+	<xs:element name="ControlIDREF" type="xs:IDREF"/>
+	<xs:complexType name="ControlsJsonListType">
+		<xs:sequence minOccurs="0">
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="CanvasDyn" minOccurs="0"/>
+				<xs:element ref="ControlIDREF" minOccurs="0"/>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ToolStripGroupTypeDyn">
+		<xs:complexContent>
+			<xs:extension base="VLayoutSSDynType">
+				<xs:all minOccurs="0">
+					<xs:element name="AutoSizeToTitle" type="xs:boolean" minOccurs="0"/>
+					<xs:element minOccurs="0" ref="Controls">
+					</xs:element>
+					<xs:element name="Enable4Login" minOccurs="0" type="Enable4LoginType"/>
+					<xs:element name="TitleHeight" type="xs:integer" minOccurs="0" default="18"/>
+					<xs:element name="Title" type="EllipsisString" minOccurs="0"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="ToolStripGroupDyn" type="ToolStripGroupTypeDyn" substitutionGroup="VLayoutSSDyn"/>
+	<xs:complexType name="RibbonGroupTypeDyn">
+		<xs:complexContent>
+			<xs:extension base="ToolStripGroupTypeDyn">
+				<xs:all minOccurs="0">
+					<xs:element name="NumRows" type="xs:integer" minOccurs="0"/>
+					<xs:element name="RowHeight" type="xs:integer" minOccurs="0"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="Controls" type="ControlsJsonListType"/>
+	<xs:element name="RibbonGroupDyn" type="RibbonGroupTypeDyn" substitutionGroup="ToolStripGroupDyn"/>
+	<xs:complexType name="LabelTypeDyn">
+		<xs:complexContent>
+			<xs:extension base="ButtonTypeDyn">
+				<xs:all minOccurs="0">
+					<xs:element name="Contents" minOccurs="0" type="HTMLString"/>
+					<xs:element name="Icon" type="url" minOccurs="0"/>
+					<xs:element name="Wrap" minOccurs="0" type="xs:boolean" default="true"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="LabelDyn" type="LabelTypeDyn" substitutionGroup="CanvasDyn"/>
+	<xs:simpleType name="PersentNumberType">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="(\*)|([0-9]{1,3}%?)"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="HTMLString">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:simpleType name="JoinKind">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="InnerJoin"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="JoinItemType">
+		<xs:sequence minOccurs="0">
+			<xs:element name="Bo" type="BoDescriptorType"/>
+			<xs:element name="DataSource" type="DataSourceTypeDyn"/>
+			<xs:element name="JoinFields">
+				<xs:complexType>
+					<xs:attribute name="From" type="xs:token" use="required"/>
+					<xs:attribute name="To" type="xs:token" use="required"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="JoinType" type="JoinKind"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="Join" type="JoinKind"/>
+	<xs:element name="Joins">
+		<xs:complexType>
+			<xs:sequence minOccurs="0">
+				<xs:element minOccurs="0" maxOccurs="unbounded" ref="Join"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:simpleType name="UnQuoted">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:simpleType name="FetchModeEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="ftchMdBasic"/>
+			<xs:enumeration value="ftchMdPaged"/>
+			<xs:enumeration value="ftchMdLocal"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="SortDirectionEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="srtDirAscending"/>
+			<xs:enumeration value="srtDirDescending"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="SortSpecifierDynType">
+		<xs:sequence>
+			<xs:element name="Property" type="xs:token"/>
+			<xs:element name="Direction" type="SortDirectionEnum" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="SortSpecifierDyn" type="SortSpecifierDynType"/>
+	<xs:complexType name="InitialSortArrayType" abstract="false">
+		<xs:sequence>
+			<xs:element ref="SortSpecifierDyn" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="OperatorIdEnum1">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="opIdEquals"/>
+			<xs:enumeration value="opIdNotEqual"/>
+			<xs:enumeration value="opIdIEquals"/>
+			<xs:enumeration value="opIdINotEqual"/>
+			<xs:enumeration value="opIdGreaterThan"/>
+			<xs:enumeration value="opIdLessThan"/>
+			<xs:enumeration value="opIdGreaterOrEqual"/>
+			<xs:enumeration value="opIdLessOrEqual"/>
+			<xs:enumeration value="opIdContains"/>
+			<xs:enumeration value="opIdStartsWith"/>
+			<xs:enumeration value="opIdEndsWith"/>
+			<xs:enumeration value="opIdIContains"/>
+			<xs:enumeration value="opIdIStartsWith"/>
+			<xs:enumeration value="opIdIEndsWith"/>
+			<xs:enumeration value="opIdNotContains"/>
+			<xs:enumeration value="opIdNotStartsWith"/>
+			<xs:enumeration value="opIdNotEndsWith"/>
+			<xs:enumeration value="opIdINotContains"/>
+			<xs:enumeration value="opIdINotStartsWith"/>
+			<xs:enumeration value="opIdINotEndsWith"/>
+			<xs:enumeration value="opIdIBetweenInclusive"/>
+			<xs:enumeration value="opIdRegexp"/>
+			<xs:enumeration value="opIdIregexp"/>
+			<xs:enumeration value="opIdIsNull"/>
+			<xs:enumeration value="opIdNotNull"/>
+			<xs:enumeration value="opIdInSet"/>
+			<xs:enumeration value="opIdNotInSet"/>
+			<xs:enumeration value="opIdEqualsField"/>
+			<xs:enumeration value="opIdNotEqualField"/>
+			<xs:enumeration value="opIdGreaterThanField"/>
+			<xs:enumeration value="opIdLessThanField"/>
+			<xs:enumeration value="opIdGreaterOrEqualField"/>
+			<xs:enumeration value="opIdLessOrEqualField"/>
+			<xs:enumeration value="opIdContainsField"/>
+			<xs:enumeration value="opIdStartsWithField"/>
+			<xs:enumeration value="opIdEndsWithField"/>
+			<xs:enumeration value="opIdAnd"/>
+			<xs:enumeration value="opIdNot"/>
+			<xs:enumeration value="opIdOr"/>
+			<xs:enumeration value="opIdBetween"/>
+			<xs:enumeration value="opIdBetweenInclusive"/>
+			<xs:enumeration value="opIdIMatchesPattern"/>
+			<xs:enumeration value="opIdMatchesPattern"/>
+			<xs:enumeration value="opIdContainsPattern"/>
+			<xs:enumeration value="opIdIContainsPattern"/>
+			<xs:enumeration value="opIdIContainsField"/>
+			<xs:enumeration value="opIdIStartsWithField"/>
+			<xs:enumeration value="opIdIEndsWithField"/>
+			<xs:enumeration value="opIdNotContainsField"/>
+			<xs:enumeration value="opIdNotStartsWithField"/>
+			<xs:enumeration value="opIdNotEndsWithField"/>
+			<xs:enumeration value="opIdINotContainsField"/>
+			<xs:enumeration value="opIdINotStartsWithField"/>
+			<xs:enumeration value="opIdINotEndsWithField"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="TextMatchStyleEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="txtMchStyleExact"/>
+			<xs:enumeration value="txtMchStyleSubstring"/>
+			<xs:enumeration value="txtMchStyleStartWith"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="TitleOrientationEnum">
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="ttlOrntLeft"/>
+			<xs:enumeration value="ttlOrntTop"/>
+			<xs:enumeration value="ttlOrntRight"/></xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="DynamicFormDynType">
+		<xs:complexContent>
+			<xs:extension base="CanvasTypeDyn">
+				<xs:all minOccurs="0">
+					<xs:element name="Fields" minOccurs="0" type="DynamicFormFieldsArrayType">
+					</xs:element>
+					<xs:element name="TitleOrientation" minOccurs="0" type="TitleOrientationEnum">
+					</xs:element>
+					<xs:element name="NumCols" minOccurs="0" type="xs:integer"/>
+					<xs:element name="NumRows" type="xs:integer" minOccurs="0"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="DynamicFormFieldsArrayType">
+		<xs:all minOccurs="0">
+			<xs:element ref="FormItemDyn" maxOccurs="unbounded" minOccurs="0"/>
+		</xs:all>
+	</xs:complexType>
+	<xs:element name="DynamicFormDyn" type="DynamicFormDynType" substitutionGroup="CanvasDyn"/>
+	<xs:complexType name="TabSetDynType">
+		<xs:complexContent>
+			<xs:extension base="CanvasTypeDyn"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="CriterionDynType">
+		<xs:complexContent>
+			<xs:extension base="ClassTypeDyn">
+				<xs:all minOccurs="0">
+					<xs:element name="Criteria" type="CriterionDynArray" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="End" minOccurs="0" type="common:Any"/>
+					<xs:element name="FieldName" minOccurs="0" type="xs:token"/>
+					<xs:element name="Operator" type="OverflowEnumType"/>
+					<xs:element name="Start" minOccurs="0" type="common:Any"/>
+					<xs:element name="Value" minOccurs="0" type="common:Any"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="AdvancedCriteriaDynType">
+		<xs:complexContent>
+			<xs:extension base="CriterionDynType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="CriterionDyn" type="CriterionDynType" substitutionGroup="ClassDyn"/>
+	<xs:element name="AdvancedCriteriaDyn" type="AdvancedCriteriaDynType" substitutionGroup="CriterionDyn"/>
+	<xs:complexType name="CriterionDynArray">
+		<xs:sequence minOccurs="0">
+			<xs:element maxOccurs="unbounded" ref="CriterionDyn"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DependentFieldsJsonList">
+		<xs:sequence minOccurs="0">
+			<xs:element name="Field" type="xs:token" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ValidatorDynType">
+		<xs:complexContent>
+			<xs:extension base="ClassTypeDyn">
+				<xs:all minOccurs="0">
+					<xs:element name="ApplyWhen" minOccurs="0" type="AdvancedCriteriaDynType"/>
+					<xs:element name="ClientOnly" minOccurs="0"/>
+					<xs:element name="DependentFields" minOccurs="0" type="DependentFieldsJsonList">
+					</xs:element>
+					<xs:element name="ErrorMessage" type="xs:string" minOccurs="0"/>
+					<xs:element name="ResultingValue" type="common:Any" minOccurs="0"/>
+					<xs:element name="ServerCondition" type="xs:string" minOccurs="0"/>
+					<xs:element name="ServerOnly" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="StopIfFalse" minOccurs="0" type="xs:string"/>
+					<xs:element name="StopOnError" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="Type" type="xs:token" minOccurs="0"/>
+					<xs:element name="ValidateOnChange" type="xs:boolean" minOccurs="0"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="ValidatorDyn" type="ValidatorDynType" substitutionGroup="ClassDyn"/>
+	<xs:complexType name="ValidatorDynArrayType">
+		<xs:sequence minOccurs="0">
+			<xs:element ref="ValidatorDyn" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SimpleTypeDynType">
+		<xs:complexContent>
+			<xs:extension base="ClassTypeDyn">
+				<xs:all minOccurs="0">
+					<xs:element name="EditorType" type="xs:token" minOccurs="0"/>
+					<xs:element name="ExportFormat" type="xs:string" minOccurs="0"/>
+					<xs:element name="FieldProperties" type="DataSourceFieldTypeDyn" minOccurs="0"/>
+					<xs:element name="Format" type="xs:string" minOccurs="0"/>
+					<xs:element name="InheritsFrom" minOccurs="0" type="xs:token"/>
+					<xs:element name="Name" type="xs:ID"/>
+					<xs:element name="ReadOnlyEditorType" type="xs:token" minOccurs="0"/>
+					<xs:element name="Validators" type="ValidatorDynArrayType" minOccurs="0"/>
+					<xs:element name="ValidOperators" minOccurs="0" type="ValidOperatorsJsonList"/>
+					<xs:element name="ValueMap" minOccurs="0" type="ValueMapType"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="SimpleTypes">
+		<xs:complexType>
+			<xs:sequence minOccurs="0">
+				<xs:element name="SimpleTypeDyn" minOccurs="0" maxOccurs="unbounded" type="SimpleTypeDynType"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="WildRecordArrayType">
+		<xs:sequence minOccurs="0">
+			<xs:element name="WildRecordColumn" minOccurs="0" maxOccurs="unbounded" type="WildRecordColumnDynType">
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="LayoutSpacerTypeDyn">
+		<xs:complexContent>
+			<xs:extension base="CanvasTypeDyn">
+				<xs:all minOccurs="0"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="LayoutSpacerDyn" type="LayoutSpacerTypeDyn" substitutionGroup="CanvasDyn"/>
+	<xs:simpleType name="IDREF2">
+
+		<xs:restriction base="xs:IDREF"/>
+
+	</xs:simpleType>
+	<xs:simpleType name="AutoFitWidthApproachEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="aftWdAprchValue"/>
+			<xs:enumeration value="aftWdAprchTitle"/>
+			<xs:enumeration value="aftWdAprchBoth"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="RecordComponentPoolingModeEnum">
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="rcCmpPlMdViewport"/>
+			<xs:enumeration value="rcCmpPlMdData"/>
+			<xs:enumeration value="rcCmpPlMdRecycle"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

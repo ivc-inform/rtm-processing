@@ -1,0 +1,22 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<objectSchema xmlns="http://simpleSys.ru/xml/library/bo" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://simpleSys.ru/xml/library/bo http://toucan.simplesys.lan/xml/xsd/v1.0.0-1/schema.xsd">
+    <group prefix="SVC" name="systemservice" caption="Генератор последовательностей">
+        <classes>
+            <classSimple name="SeqGenerator" autoTableMapping="true" caption="Учет последовательных идентификаторов (ID)">
+                <attrs>
+                    <attr name="nameSeq" type="sCode" mandatory="true" caption="Код последовательности"/>
+                    <attr name="maxValue" type="nInt" mandatory="true" caption="Последнее значение"/>
+                </attrs>
+                <defaults>
+                    <uiSettings uiFormType="singleListGrid"/>
+                </defaults>
+                <constraints>
+                    <uc uniqueType="pk">
+                        <attrName>nameSeq</attrName>
+                    </uc>
+                </constraints>
+            </classSimple>
+        </classes>
+    </group>
+</objectSchema>

@@ -1,0 +1,44 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<RootPane xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xmlns="http://simpleSys.ru/xml/library/app"
+          xmlns:isc="http://simpleSys.ru/xml/library/ISC"
+          xsi:schemaLocation="http://simpleSys.ru/xml/library/app http://toucan.simplesys.lan/xml/xsd/v1.0.0-1/schemaApp.xsd">
+    <Bo BoName="UserGroup"
+        GroupName="admin"
+        BoCaption="Группы пользователей"
+        GroupCaption="Группы и Пользователи"
+        Enabled="true"/>
+    <MenuPath>
+        <isc:GroupTitle>Группы и Пользователи</isc:GroupTitle>
+        <isc:Identifier>admin</isc:Identifier>
+        <isc:Title>Группы и Пользователи</isc:Title>
+        <isc:MenuPath>
+            <isc:Identifier>admin_UserGroup</isc:Identifier>
+            <isc:Title>Группы пользователей</isc:Title>
+        </isc:MenuPath>
+    </MenuPath>
+    <RootCanvas>
+        <TreeGridEditor>
+            <useSelfName>false</useSelfName>
+            <AutoFetchData>true</AutoFetchData>
+            <AutoSaveEdits>true</AutoSaveEdits>
+            <Identifier>editoradmin_UserGroup</Identifier>
+            <DataPageSize>simpleSyS.config.dataPageSize</DataPageSize>
+            <DrawAheadRatio>simpleSyS.config.drawAheadRatio</DrawAheadRatio>
+            <InitialSort>
+                <SortSpecifier>
+                    <Property>di</Property>
+                </SortSpecifier>
+            </InitialSort>
+            <CanEdit>true</CanEdit>
+            <FetchDelay>500</FetchDelay>
+            <FolderIcon>folder.png</FolderIcon>
+            <CanSelectCells>false</CanSelectCells>
+            <CanReparentNodes>true</CanReparentNodes>
+            <NodeIcon>tree_node.png</NodeIcon>
+            <SelectionType>Multiple</SelectionType>
+            <ShowRecordComponents>false</ShowRecordComponents>
+            <ShowRecordComponentsByCell>false</ShowRecordComponentsByCell>
+        </TreeGridEditor>
+    </RootCanvas>
+</RootPane>

@@ -1,0 +1,47 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<RootPane xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xmlns="http://simpleSys.ru/xml/library/app"
+          xmlns:isc="http://simpleSys.ru/xml/library/ISC"
+          xsi:schemaLocation="http://simpleSys.ru/xml/library/app http://toucan.simplesys.lan/xml/xsd/v1.0.0-1/schemaApp.xsd">
+    <Bo BoName="COM_Data_DM"
+        GroupName="data"
+        BoCaption="Сообщения - вся БД"
+        GroupCaption="Данные"
+        Enabled="true"/>
+    <MenuPath>
+        <isc:GroupTitle>Данные</isc:GroupTitle>
+        <isc:Identifier>data</isc:Identifier>
+        <isc:Title>Данные</isc:Title>
+        <isc:MenuPath>
+            <isc:Identifier>data_COM_Data_DM</isc:Identifier>
+            <isc:Title>Сообщения - вся БД</isc:Title>
+        </isc:MenuPath>
+    </MenuPath>
+    <RootCanvas>
+        <ListGridEditor>
+            <useSelfName>false</useSelfName>
+            <AutoFetchData>true</AutoFetchData>
+            <AutoSaveEdits>true</AutoSaveEdits>
+            <AutoFitWidthApproach>both</AutoFitWidthApproach>
+            <AutoFitFieldWidths>true</AutoFitFieldWidths>
+            <Identifier>editordata_COM_Data_DM</Identifier>
+            <DataPageSize>simpleSyS.config.dataPageSize</DataPageSize>
+            <DrawAheadRatio>simpleSyS.config.drawAheadRatio</DrawAheadRatio>
+            <InitialSort>
+                <SortSpecifier>
+                    <Property>id</Property>
+                </SortSpecifier>
+            </InitialSort>
+            <CanEdit>true</CanEdit>
+            <CanSelectCells>false</CanSelectCells>
+            <FetchDelay>500</FetchDelay>
+            <SelectionType>Multiple</SelectionType>
+            <ShowAdvancedFilter>false</ShowAdvancedFilter>
+            <ShowFilterEditor>true</ShowFilterEditor>
+            <ShowRecordComponents>false</ShowRecordComponents>
+            <ShowRecordComponentsByCell>false</ShowRecordComponentsByCell>
+            <TextMatchStyle>txtMchStyleSubstring</TextMatchStyle>
+            <WrapCells>true</WrapCells>
+        </ListGridEditor>
+    </RootCanvas>
+</RootPane>

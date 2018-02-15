@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%t] %-5p %logger{255} - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <!--<appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>main.log</file>
+        <append>false</append>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%t] %-5p %logger{255} - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <appender name="FILE_FETCH" class="ch.qos.logback.core.FileAppender">
+        <file>main-fetch.log</file>
+        <append>false</append>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%t] %-5p %logger{255} - %msg%n</pattern>
+        </encoder>
+    </appender>-->
+
+    <logger name="com.simplesys.app.SbProcessingApp" level="trace"/>
+    <logger name="com.simplesys.dbReader.QueueMessagesEmulator" level="trace"/>
+    <!--<logger name="com.simplesys.mfms.containers.ManagerOfFixedTemplates_FetchTemplateActor" level="debug" additivity="false">
+        <appender-ref ref="FILE_FETCH"/>
+    </logger>-->
+    <!--<root level="">-->
+    <root level="debug">
+        <appender-ref ref="STDOUT"/>
+        <!--<appender-ref ref="FILE"/>-->
+    </root>
+</configuration>

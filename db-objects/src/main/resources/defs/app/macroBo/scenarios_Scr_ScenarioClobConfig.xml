@@ -1,0 +1,21 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<RootPane xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xmlns="http://simpleSys.ru/xml/library/app"
+          xmlns:isc="http://simpleSys.ru/xml/library/ISC"
+          xsi:schemaLocation="http://simpleSys.ru/xml/library/app http://toucan.simplesys.lan/xml/xsd/v1.0.0-1/schemaApp.xsd">
+    <Bo BoName="Scr_ScenarioClobConfig"
+        GroupName="scenarios"
+        BoCaption="Сценарии"
+        GroupCaption="RTM"
+        Enabled="true"/>
+    <MenuPath>
+        <isc:GroupTitle>RTM</isc:GroupTitle>
+        <isc:Identifier>scenarios</isc:Identifier>
+        <isc:Title>RTM</isc:Title>
+        <isc:MenuPath>
+            <isc:Identifier>scenarios_Scr_ScenarioClobConfig</isc:Identifier>
+            <isc:Title>Сценарии</isc:Title>
+        </isc:MenuPath>
+    </MenuPath>
+    <RootCanvas/>
+</RootPane>

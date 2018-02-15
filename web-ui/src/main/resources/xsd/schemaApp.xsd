@@ -1,0 +1,674 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://simpleSys.ru/xml/library/app" xmlns="http://simpleSys.ru/xml/library/app" attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:isc="http://simpleSys.ru/xml/library/ISC"
+           xmlns:meta="http://simpleSys.ru/xml/library/bo" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:common="http://simpleSys.ru/xml/library/common" xmlns:xsd="undefined">
+
+	<xs:import schemaLocation="http://toucan.simplesys.lan/xml/xsd/v1.0.0-1/common.xsd" namespace="http://simpleSys.ru/xml/library/common"/>
+	<xs:import schemaLocation="http://toucan.simplesys.lan/xml/xsd/v1.0.0-1/schemaISC.xsd" namespace="http://simpleSys.ru/xml/library/ISC"/>
+
+	<xs:element name="RootPane">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="Bo" type="isc:BoDescriptorType"/>
+				<xs:element name="BoTreeCaption" minOccurs="0" type="xs:string"/>
+				<xs:element ref="DataSources" minOccurs="0"/>
+				<xs:element minOccurs="0" ref="Menus">
+				</xs:element>
+				<xs:element minOccurs="0" name="MenuPath" type="isc:MenuPathType"/>
+				<xs:element minOccurs="0" name="RootCanvas">
+					<xs:complexType>
+						<xs:all>
+							<xs:element minOccurs="0" ref="Canvas"/>
+							<xs:element name="CanvasID" type="xs:IDREF" minOccurs="0"/>
+						</xs:all>
+					</xs:complexType>
+				</xs:element>
+			</xs:all>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:complexType name="ClassType">
+		<xs:all minOccurs="0">
+			<xs:element name="useSelfName" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="Identifier" minOccurs="0" type="xs:ID"/>
+			<xs:element name="AutoJoinTransactions" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="JSFile" minOccurs="0" type="xs:anyURI"/>
+		</xs:all>
+	</xs:complexType>
+	<xs:element name="Class" type="ClassType"/>
+	<xs:complexType name="DataSourceType">
+		<xs:complexContent>
+			<xs:extension base="ClassType">
+				<xs:all minOccurs="0">
+					<xs:element name="Fields" maxOccurs="1" minOccurs="0">
+						<xs:complexType>
+							<xs:all minOccurs="0">
+								<xs:element name="Field" minOccurs="0" maxOccurs="unbounded">
+									<xs:complexType>
+										<xs:all minOccurs="0">
+											<xs:element name="Caption" minOccurs="0" type="isc:EllipsisString"/>
+											<xs:element name="CaptionEllipsis" type="xs:boolean" minOccurs="0"/>
+											<xs:element minOccurs="0" name="FieldType" type="isc:FieldEnum">
+											</xs:element>
+											<xs:element name="Hidden" type="xs:boolean" minOccurs="0" default="false"/>
+											<xs:element name="Mantadory" type="xs:boolean" minOccurs="0" default="false"/>
+											<xs:element name="Name" type="xs:string"/>
+											<xs:element name="PrimaryKey" type="xs:boolean" minOccurs="0" default="false"/>
+											<xs:element name="IsUnique" type="xs:boolean" minOccurs="0" default="false"/>
+											<xs:element name="ValidOperators" minOccurs="0">
+												<xs:complexType>
+													<xs:all>
+														<xs:element name="Operator" type="OperatorIdType" minOccurs="1" maxOccurs="unbounded"/>
+													</xs:all>
+												</xs:complexType>
+											</xs:element>
+											<xs:element name="Width" type="xs:string" minOccurs="0" default="*"/>
+										</xs:all>
+									</xs:complexType>
+								</xs:element>
+							</xs:all>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="Operations" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence maxOccurs="4" minOccurs="0">
+								<xs:element name="Operation">
+									<xs:complexType>
+										<xs:sequence minOccurs="0">
+											<xs:element name="OperationType" type="isc:DSOperationEnum">
+											</xs:element>
+										</xs:sequence>
+									</xs:complexType>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:element name="DataSource" type="DataSourceType" substitutionGroup="Class">
+	</xs:element>
+	<xs:element name="DataSources">
+		<xs:complexType>
+			<xs:all maxOccurs="1" minOccurs="0">
+				<xs:element ref="DataSource" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:all>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="CanvasType">
+		<xs:complexContent>
+			<xs:extension base="ClassType">
+				<xs:all minOccurs="0">
+					<xs:element name="Height" type="xs:string" default="100" minOccurs="0"/>
+					<xs:element name="Width" type="xs:string" minOccurs="0" default="100"/>
+					<xs:element name="DefaultHeight" type="isc:PersentNumberType" default="100" minOccurs="0"/>
+					<xs:element name="DefaultWidth" type="isc:PersentNumberType" minOccurs="0" default="100"/>
+					<xs:element name="ShowResizeBar" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="ResizeBarTarget" type="xs:string" minOccurs="0"/>
+					<xs:element name="Padding" type="xs:integer" minOccurs="0"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="Canvas" abstract="false" type="CanvasType" substitutionGroup="Class"/>
+	<xs:complexType name="MembersCanvasArray">
+		<xs:all>
+			<xs:element ref="Canvas" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:all>
+	</xs:complexType>
+	<xs:complexType name="LayoutType" abstract="false" mixed="false">
+		<xs:complexContent>
+			<xs:extension base="CanvasType">
+				<xs:all minOccurs="0">
+					<xs:element minOccurs="0" name="Align" type="AbsAlignmentType"/>
+					<xs:element minOccurs="0" name="Members" type="MembersCanvasArray">
+					</xs:element>
+					<xs:element name="Vertical" type="xs:boolean" minOccurs="0"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="Layout" abstract="true" substitutionGroup="Canvas" type="LayoutType"/>
+	<xs:complexType name="HLayoutType" abstract="false">
+		<xs:complexContent>
+			<xs:extension base="LayoutType">
+				<xs:all minOccurs="0">
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="HLayout" type="HLayoutType" substitutionGroup="Layout">
+	</xs:element>
+	<xs:complexType name="VLayoutType">
+		<xs:complexContent>
+			<xs:extension base="LayoutType">
+				<xs:all minOccurs="0"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="VLayout" type="VLayoutType" substitutionGroup="Layout"/>
+	<xs:complexType name="DataViewType" abstract="false">
+		<xs:complexContent>
+			<xs:extension base="VLayoutType">
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="DataView" abstract="true" type="DataViewType" substitutionGroup="VLayout"/>
+	<xs:simpleType name="AbsAlignmentType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="top"/>
+			<xs:enumeration value="left"/>
+			<xs:enumeration value="right"/>
+			<xs:enumeration value="center"/>
+			<xs:enumeration value="bottom"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="AlignmentType">
+		<xs:restriction base="AbsAlignmentType">
+			<xs:enumeration value="left"/>
+			<xs:enumeration value="right"/>
+			<xs:enumeration value="center"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="VerticalAlignmentType">
+		<xs:restriction base="AbsAlignmentType">
+			<xs:enumeration value="top"/>
+			<xs:enumeration value="center"/>
+			<xs:enumeration value="bottom"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="DataSourceIDREF" type="xs:IDREF"/>
+	<xs:complexType name="DataSourceElementType">
+		<xs:choice minOccurs="1">
+			<xs:element ref="DataSourceIDREF" minOccurs="1"/>
+			<xs:element ref="DataSource" minOccurs="1"/>
+		</xs:choice>
+	</xs:complexType>
+	<xs:element name="ContextMenuElement">
+		<xs:complexType>
+			<xs:choice minOccurs="1">
+				<xs:element ref="MenuIDREF" minOccurs="0"/>
+				<xs:element ref="Menu" minOccurs="0"/>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="FuncMenuElement">
+		<xs:complexType>
+			<xs:choice minOccurs="1">
+				<xs:element ref="MenuIDREF" minOccurs="0"/>
+				<xs:element ref="Menu" minOccurs="0"/>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+	<xs:simpleType name="SelectionStyle">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Simple"/>
+			<xs:enumeration value="Multiple"/>
+			<xs:enumeration value="Single"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="InitialSortArrayType" abstract="false">
+		<xs:sequence>
+			<xs:element ref="SortSpecifier" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="AutoFitWidthApproachEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="value"/>
+			<xs:enumeration value="title"/>
+			<xs:enumeration value="both"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="RecordComponentPoolingModeEnum">
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Wiewport"/>
+			<xs:enumeration value="Data"/>
+			<xs:enumeration value="Recycle"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="BaseGridType">
+		<xs:complexContent>
+			<xs:extension base="VLayoutType">
+				<xs:all minOccurs="0">
+					<xs:element name="AutoFetchData" type="xs:boolean" default="false" minOccurs="0"/>
+					<xs:element name="AutoFitFieldWidths" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="AutoFitWidthApproach" type="AutoFitWidthApproachEnum" minOccurs="0"/>
+					<xs:element name="AutoSaveEdits" minOccurs="0" type="xs:boolean" default="false"/>
+					<xs:element name="CanAcceptDroppedRecords" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="CanEdit" type="xs:boolean" default="false" minOccurs="0"/>
+					<xs:element name="CanReorderRecords" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="CanReparentNodes" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="CanSelectCells" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="DataPageSize" type="xs:string" default="'75'" minOccurs="0"/>
+					<xs:element name="DrawAheadRatio" type="xs:string" default="'1.3'" minOccurs="0"/>
+					<xs:element minOccurs="0" name="DataSourceElement" type="DataSourceElementType"/>
+					<xs:element name="EditByCell" minOccurs="0" type="xs:boolean" default="false"/>
+					<xs:element name="FetchDelay" type="xs:integer" minOccurs="0" default="300"/>
+					<xs:element name="DataFetchMode" type="xs:string" minOccurs="0"/>
+					<xs:element name="InitialSort" minOccurs="0" type="InitialSortArrayType"/>
+					<xs:element name="FilterOnKeypress" type="xs:boolean" minOccurs="0" default="false"/>
+					<xs:element name="RecordComponentPoolingMode" minOccurs="0" type="RecordComponentPoolingModeEnum" default="Wiewport">
+					</xs:element>
+					<xs:element name="SelectionType" minOccurs="0" type="SelectionStyle">
+					</xs:element>
+					<xs:element name="ShowFilterEditor" type="xs:boolean" minOccurs="0" default="false"/>
+					<xs:element name="ShowRecordComponents" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="ShowRecordComponentsByCell" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="TextMatchStyle" type="TextMatchStyleEnum" minOccurs="0"/>
+					<xs:element name="WrapCells" type="xs:boolean" minOccurs="0"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="BaseGrid" type="BaseGridType" substitutionGroup="VLayout" abstract="true"/>
+	<xs:complexType name="ListGridType" abstract="false">
+		<xs:complexContent>
+			<xs:extension base="BaseGridType">
+				<xs:all minOccurs="0">
+					<xs:element minOccurs="0" name="Fields" type="ListGridFieldsType">
+					</xs:element>
+					<xs:element name="DefaultFields" type="ListGridFieldsType" minOccurs="0"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="ListGrid" type="ListGridType" substitutionGroup="BaseGrid"/>
+	<xs:complexType name="LoadFromDefault">
+		<xs:all>
+			<xs:element name="TemplateName" type="xs:string"/>
+		</xs:all>
+	</xs:complexType>
+	<xs:complexType name="ListGridEditorType">
+		<xs:complexContent>
+			<xs:extension base="ListGridType">
+				<xs:all minOccurs="0">
+					<xs:element ref="ContextMenuElement" minOccurs="0"/>
+					<xs:element ref="FuncMenuElement" minOccurs="0"/>
+					<xs:element name="ShowAdvancedFilter" minOccurs="0" type="xs:boolean" default="false"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="ListGridEditor" type="ListGridEditorType" substitutionGroup="ListGrid"/>
+	<xs:complexType name="ListGridEditorWithCardType" abstract="false">
+		<xs:complexContent>
+			<xs:extension base="HLayoutType">
+				<xs:all minOccurs="0">
+					<xs:element name="FuncMenu" type="MenuType"/>
+					<xs:element name="Fields" type="ListGridFieldsType">
+					</xs:element>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="ListGridEditorWithCard" type="ListGridEditorWithCardType" substitutionGroup="HLayout"/>
+	<xs:complexType name="TreeGridType">
+		<xs:complexContent>
+			<xs:extension base="BaseGridType">
+				<xs:all minOccurs="0">
+					<xs:element minOccurs="0" name="Fields" type="TreeGridFieldsType">
+					</xs:element>
+					<xs:element name="DefaultFields" minOccurs="0" type="TreeGridFieldsType"/>
+					<xs:element name="FolderIcon" minOccurs="0" type="isc:url"/>
+					<xs:element name="NodeIcon" minOccurs="0" type="isc:url"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="TreeGrid" type="TreeGridType" substitutionGroup="BaseGrid"/>
+	<xs:complexType name="TreeGridEditorType">
+		<xs:complexContent>
+			<xs:extension base="TreeGridType">
+				<xs:all minOccurs="0">
+					<xs:element ref="ContextMenuElement" minOccurs="0"/>
+					<xs:element ref="FuncMenuElement" minOccurs="0"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="TreeGridEditor" type="TreeGridEditorType" substitutionGroup="TreeGrid">
+	</xs:element>
+	<xs:complexType name="TreeListGridEditorType">
+		<xs:complexContent>
+			<xs:extension base="HLayoutType">
+				<xs:all minOccurs="0">
+					<xs:element name="AutoFetchData" minOccurs="0" type="xs:boolean"/>
+					<xs:element name="AutoSaveListEdits" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="AutoSaveTreeEdits" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="CanEditList" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="CanEditTree" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="CanSelectCellsList" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="CanSelectCellsTree" minOccurs="0" type="xs:boolean"/>
+					<xs:element name="ContextMenuListGridEditor" type="xs:IDREF" minOccurs="0"/>
+					<xs:element name="ContextMenuTreeGridEditor" minOccurs="0" type="xs:IDREF"/>
+					<xs:element name="DataFetchModeList" type="xs:string" minOccurs="0"/>
+					<xs:element name="DataPageSizeList" type="xs:string" minOccurs="0"/>
+					<xs:element name="DataFetchModeTree" type="xs:string" minOccurs="0"/>
+					<xs:element name="DataPageSizeTree" type="xs:string" minOccurs="0"/>
+					<xs:element name="FilterListOnKeypress" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="FilterTreeOnKeypress" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="InitialSortList" type="InitialSortArrayType" minOccurs="0"/>
+					<xs:element name="InitialSortTree" type="InitialSortArrayType" minOccurs="0"/>
+					<xs:element name="ListGridDataSourceElement" type="DataSourceElementType" minOccurs="0"/>
+					<xs:element name="ListGridFields" type="ListGridFieldsType" minOccurs="0"/>
+					<xs:element name="ListGridDefaultFields" type="ListGridFieldsType" minOccurs="0"/>
+					<xs:element name="TreeGridDataSourceElement" type="DataSourceElementType" minOccurs="0"/>
+					<xs:element name="TreeGridFields" type="TreeGridFieldsType" minOccurs="0"/>
+					<xs:element name="TreeGridDefaultFields" type="TreeGridFieldsType" minOccurs="0"/>
+					<xs:element name="TextMatchStyleList" type="TextMatchStyleEnum" minOccurs="0"/>
+					<xs:element name="TextMatchStyleTree" type="TextMatchStyleEnum" minOccurs="0"/>
+					<xs:element name="TreeIdentifier" minOccurs="0" type="common:GUID"/>
+					<xs:element name="FolderDropImageTree" type="isc:url" minOccurs="0"/>
+					<xs:element name="FolderIconTree" type="isc:url" minOccurs="0"/>
+					<xs:element name="NodeIconTree" type="isc:url" minOccurs="0"/>
+					<xs:element name="DrawAheadRatioList" type="xs:string" minOccurs="0"/>
+					<xs:element name="DrawAheadRatioTree" type="xs:string" minOccurs="0"/>
+					<xs:element name="ShowListFilterEditor" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="ShowTreeFilterEditor" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="ShowListAdvancedFilter" type="xs:boolean" minOccurs="0" default="false"/>
+					<xs:element name="ShowTreeAdvancedFilter" type="xs:boolean" minOccurs="0" default="false"/>
+					<xs:element name="FetchListDelay" type="xs:integer" minOccurs="0"/>
+					<xs:element name="FetchTreeDelay" type="xs:integer" minOccurs="0"/>
+					<xs:element name="ShowListRecordComponents" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="ShowTreeRecordComponents" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="ShowListRecordComponentsByCell" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="ShowTreeRecordComponentsByCell" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="WrapListCells" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="WrapTreeCells" type="xs:boolean" minOccurs="0"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="TreeListGridEditor" type="TreeListGridEditorType" substitutionGroup="HLayout"/>
+	<xs:complexType name="BaseGridFieldType">
+		<xs:all minOccurs="0">
+			<xs:element name="CanEdit" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="Changed" minOccurs="0" type="xs:string"/>
+			<xs:element name="Hidden" minOccurs="0" type="xs:boolean"/>
+			<xs:element name="Name" type="xs:string" minOccurs="1"/>
+			<xs:element name="Editor" type="isc:EditorEnum" minOccurs="0" default="TextItem"/>
+			<xs:element name="ValueMap" minOccurs="0" type="isc:ValueMapType"/>
+		</xs:all>
+	</xs:complexType>
+	<xs:element name="BaseGridField" type="BaseGridFieldType"/>
+	<xs:complexType name="ListGridFieldType">
+		<xs:complexContent>
+			<xs:extension base="BaseGridFieldType">
+				<xs:all minOccurs="0">
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="ListGridField" type="ListGridFieldType" substitutionGroup="BaseGridField"/>
+	<xs:complexType name="ListGridFieldsType">
+		<xs:all maxOccurs="1">
+			<xs:element name="Field" type="ListGridFieldType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:all>
+	</xs:complexType>
+	<xs:complexType name="TreeGridFieldType">
+		<xs:complexContent>
+			<xs:extension base="BaseGridFieldType">
+				<xs:all minOccurs="0">
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="TreeGridField" type="TreeGridFieldType" substitutionGroup="BaseGridField"/>
+	<xs:complexType name="TreeGridFieldsType">
+		<xs:all>
+			<xs:element name="Field" type="TreeGridFieldType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:all>
+	</xs:complexType>
+	<xs:complexType name="MenuType">
+		<xs:complexContent>
+			<xs:extension base="BaseGridType">
+				<xs:all minOccurs="0">
+					<xs:element ref="MenuItems" minOccurs="0"/>
+					<xs:element minOccurs="0" name="Native">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element ref="isc:MenuDyn" minOccurs="0"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="MenuIDREF" type="xs:IDREF"/>
+	<xs:element name="Menu" substitutionGroup="VLayout" type="MenuType"/>
+	<xs:element name="Menus">
+		<xs:complexType>
+			<xs:all>
+				<xs:element ref="Menu" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:all>
+		</xs:complexType>
+	</xs:element>
+	<xs:simpleType name="MenuItemActionType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="NewRow"/>
+			<xs:enumeration value="EditRow"/>
+			<xs:enumeration value="DeleteRows"/>
+			<xs:enumeration value="RefreshAllRows"/>
+			<xs:enumeration value="SaveEdited"/>
+			<xs:enumeration value="CancelEdited"/>
+			<xs:enumeration value="Separator"/>
+			<xs:enumeration value="DeleteTab"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="MenuItemType">
+		<xs:complexContent>
+			<xs:extension base="BaseGridFieldType">
+				<xs:all minOccurs="0">
+					<xs:element name="Click" type="isc:JSFunction" minOccurs="0"/>
+					<xs:element name="EnableIf" type="isc:JSFunction" minOccurs="0"/>
+					<xs:element name="Icon" type="isc:url" minOccurs="0"/>
+					<xs:element name="IdArrayItem" type="xs:string" minOccurs="0"/>
+					<xs:element name="IsSeparator" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="KeyTitle" type="xs:string" minOccurs="0"/>
+					<xs:element name="Keys" minOccurs="0" type="isc:KeysArrayType"/>
+					<xs:element name="Submenu" minOccurs="0" type="isc:MenuTypeDyn"/>
+					<xs:element name="Title" type="isc:EllipsisString" minOccurs="0"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="AbstractMenuItemType" abstract="true"/>
+	<xs:element name="MenuItem" type="MenuItemType" substitutionGroup="BaseGridField"/>
+	<xs:element name="MenuItems">
+		<xs:complexType>
+			<xs:all minOccurs="0">
+				<xs:element name="MenuItem" type="MenuItemType" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:all>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="SortSpecifierType">
+		<xs:all>
+			<xs:element name="SortDirection" type="SortDirectionEnum" minOccurs="0"/>
+			<xs:element name="Property" type="xs:token"/>
+		</xs:all>
+	</xs:complexType>
+	<xs:element name="SortSpecifier" type="SortSpecifierType"/>
+	<xs:simpleType name="SortDirectionEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="srtDirAscending"/>
+			<xs:enumeration value="srtDirDescending"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="TextMatchStyleEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="txtMchStyleExact"/>
+			<xs:enumeration value="txtMchStyleSubstring"/>
+			<xs:enumeration value="txtMchStyleStartWith"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="CriterionArray">
+		<xs:all minOccurs="0">
+			<xs:element ref="Criterion"/>
+		</xs:all>
+	</xs:complexType>
+	<xs:complexType name="CriterionType">
+		<xs:all>
+			<xs:element name="Criteria" type="CriterionArray" minOccurs="0"/>
+			<xs:element name="End" type="common:Any" minOccurs="0"/>
+			<xs:element name="Start" type="common:Any" minOccurs="0"/>
+			<xs:element name="Value" type="common:Any" minOccurs="0"/>
+			<xs:element name="FieldName" type="xs:string" minOccurs="0"/>
+			<xs:element name="Operator" type="OperatorIdType" minOccurs="0"/>
+		</xs:all>
+	</xs:complexType>
+	<xs:element name="Criterion" type="CriterionType"/>
+	<xs:complexType name="AdvancedCriteriaType" abstract="false">
+		<xs:all minOccurs="0">
+			<xs:element name="Criteria" type="CriterionArray"/>
+			<xs:element name="End" type="common:Any" minOccurs="0"/>
+			<xs:element name="FieldName" type="xs:string" minOccurs="0"/>
+			<xs:element name="Operator" type="OperatorIdType" minOccurs="0"/>
+			<xs:element name="Start" type="common:Any" minOccurs="0"/>
+			<xs:element name="Value" type="common:Any" minOccurs="0"/>
+		</xs:all>
+	</xs:complexType>
+	<xs:complexType name="FilterBuilderType">
+		<xs:complexContent>
+			<xs:extension base="LayoutType">
+				<xs:all minOccurs="0">
+					<xs:element name="AllowEmpty" type="xs:boolean" default="true" maxOccurs="1" minOccurs="0"/>
+					<xs:element minOccurs="0" name="DataSourceElement" type="DataSourceElementType"/>
+					<xs:element name="Criteria" minOccurs="0" type="AdvancedCriteriaType"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="FilterBuilder" type="FilterBuilderType" substitutionGroup="Layout"/>
+	<xs:simpleType name="OperatorIdType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="equals"/>
+			<xs:enumeration value="notEqual"/>
+			<xs:enumeration value="iEquals"/>
+			<xs:enumeration value="iNotEqual"/>
+			<xs:enumeration value="greaterThan"/>
+			<xs:enumeration value="lessThan"/>
+			<xs:enumeration value="greaterOrEqual"/>
+			<xs:enumeration value="lessOrEqual"/>
+			<xs:enumeration value="contains"/>
+			<xs:enumeration value="startsWith"/>
+			<xs:enumeration value="endsWith"/>
+			<xs:enumeration value="iContains"/>
+			<xs:enumeration value="iStartsWith"/>
+			<xs:enumeration value="iEndsWith"/>
+			<xs:enumeration value="notContains"/>
+			<xs:enumeration value="notStartsWith"/>
+			<xs:enumeration value="notEndsWith"/>
+			<xs:enumeration value="iNotContains"/>
+			<xs:enumeration value="iNotStartsWith"/>
+			<xs:enumeration value="iNotEndsWith"/>
+			<xs:enumeration value="iBetweenInclusive"/>
+			<xs:enumeration value="matchesPattern"/>
+			<xs:enumeration value="iMatchesPattern"/>
+			<xs:enumeration value="containsPattern"/>
+			<xs:enumeration value="iContainsPattern"/>
+			<xs:enumeration value="regexp"/>
+			<xs:enumeration value="iregexp"/>
+			<xs:enumeration value="isNull"/>
+			<xs:enumeration value="notNull"/>
+			<xs:enumeration value="inSet"/>
+			<xs:enumeration value="notInSet"/>
+			<xs:enumeration value="equalsField"/>
+			<xs:enumeration value="notEqualField"/>
+			<xs:enumeration value="iEqualsField"/>
+			<xs:enumeration value="iNotEqualField"/>
+			<xs:enumeration value="greaterThanField"/>
+			<xs:enumeration value="greaterOrEqualField"/>
+			<xs:enumeration value="lessOrEqualField"/>
+			<xs:enumeration value="containsField"/>
+			<xs:enumeration value="startsWithField"/>
+			<xs:enumeration value="endsWithField"/>
+			<xs:enumeration value="iContainsField"/>
+			<xs:enumeration value="iStartsWithField"/>
+			<xs:enumeration value="iEndsWithField"/>
+			<xs:enumeration value="notContainsField"/>
+			<xs:enumeration value="notStartsWithField"/>
+			<xs:enumeration value="notEndsWithField"/>
+			<xs:enumeration value="iNotContainsField"/>
+			<xs:enumeration value="iNotStartsWithField"/>
+			<xs:enumeration value="iNotEndsWithField"/>
+			<xs:enumeration value="and"/>
+			<xs:enumeration value="not"/>
+			<xs:enumeration value="or"/>
+			<xs:enumeration value="between"/>
+			<xs:enumeration value="betweenInclusive"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="DynamicFormType">
+		<xs:complexContent>
+			<xs:extension base="CanvasType">
+				<xs:all minOccurs="0">
+					<xs:element name="NumCols" type="xs:integer" minOccurs="0"/>
+					<xs:element name="NumRows" type="xs:integer" minOccurs="0"/>
+					<xs:element name="TitleOrientation" minOccurs="0">
+						<xs:simpleType>
+							<xs:restriction base="xs:token">
+								<xs:enumeration value="top"/>
+								<xs:enumeration value="left"/>
+								<xs:enumeration value="right"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="Fields" type="DynamicFormFieldsType" minOccurs="0"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="DynamicForm" type="DynamicFormType" substitutionGroup="Canvas"/>
+
+	<xs:complexType name="DynamicFormFieldsType">
+		<xs:all minOccurs="0">
+			<xs:element name="Field" type="DynamicFormFieldType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:all>
+	</xs:complexType>
+
+	<xs:complexType name="DynamicFormFieldType" abstract="false">
+		<xs:attribute name="name" type="xs:string" use="required"/>
+		<xs:attribute name="numStartRow" type="xs:int" use="optional"/>
+		<xs:attribute name="numStartCol" type="xs:int" use="optional"/>
+		<xs:attribute name="rowSpan" type="xs:int" use="optional"/>
+		<xs:attribute name="colSpan" type="xs:int" use="optional"/>
+		<xs:attribute name="startRow" type="xs:boolean" use="optional"/>
+		<xs:attribute name="endRow" type="xs:boolean" use="optional"/>
+	</xs:complexType>
+
+	<xs:complexType name="TabSetType">
+		<xs:complexContent>
+			<xs:extension base="CanvasType">
+				<xs:all minOccurs="0">
+					<xs:element name="Tabs" type="TabsType" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="SelectedTab" type="xs:int" minOccurs="0"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="TabSet" type="TabSetType" substitutionGroup="Canvas"/>
+	<xs:complexType name="TabsType">
+		<xs:sequence minOccurs="0" maxOccurs="unbounded">
+			<xs:element ref="Tab" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TabType">
+		<xs:complexContent>
+			<xs:extension base="CanvasType">
+				<xs:all minOccurs="0">
+					<xs:element name="Title" type="xs:string"/>
+					<xs:element name="Pane" minOccurs="0">
+						<xs:complexType>
+							<xs:all>
+								<xs:element ref="Canvas"/>
+							</xs:all>
+						</xs:complexType>
+					</xs:element>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="Tab" type="TabType" substitutionGroup="Canvas"/>
+</xs:schema>

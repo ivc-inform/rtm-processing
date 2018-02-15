@@ -1,0 +1,31 @@
+<objectSchema xmlns="http://simpleSys.ru/xml/library/bo" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://simpleSys.ru/xml/library/bo http://toucan.simplesys.lan/xml/xsd/v1.0.0-1/schema.xsd">
+	<group caption="Данные" name="data" prefix="DT">
+		<classes>
+			<classSimple autoTableMapping="false" caption="Сообщения - вся БД" name="COM_Data_DM">
+				<attrs>
+					<attr caption="Идентификатор" mandatory="true" name="id" type="di"></attr>
+					<attr caption="ID коннектора" mandatory="false" name="cnr" type="id"></attr>
+					<attr caption="Код коннектора" mandatory="false" name="cnrCode" type="sCode"></attr>
+					<attr caption="ID клиента" mandatory="false" name="acn" type="id"></attr>
+					<attr caption="Код клиента" mandatory="true" name="acnCode" type="sCode"></attr>
+					<attr caption="Время добаления сообщения" mandatory="true" name="timestamp" type="dDateTime"></attr>
+					<attr caption="Тема сообщения" mandatory="true" name="subject" type="sCode"></attr>
+					<attr caption="Время отправки отложенного сообщения" mandatory="false" name="start_time" type="dDateTime"></attr>
+					<attr caption="Статус сообщения" mandatory="true" name="dlv_status" type="ss"></attr>
+					<attr caption="Время модификации статуса" mandatory="true" name="dlv_status_at" type="dDateTime"></attr>
+					<attr caption="Ошибка доставки" mandatory="false" name="dlv_error" type="sCode"></attr>
+					<attr caption="Телефон" mandatory="true" name="address" type="sCode"></attr>
+					<attr caption="Содержание сообщения" mandatory="true" name="text" type="sDescription"></attr>
+				</attrs>
+				<defaults>
+					<uiSettings uiFormType="singleListGrid"></uiSettings>
+				</defaults>
+				<constraints>
+					<uc uniqueType="pk">
+						<attrName>id</attrName>
+					</uc>
+				</constraints>
+			</classSimple>
+		</classes>
+	</group>
+</objectSchema>

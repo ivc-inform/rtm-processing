@@ -1,0 +1,49 @@
+.DS_Store
+target
+backups/
+project/target
+.idea_modules
+.idea
+*.iml
+generated/
+journal/
+!processing-core/src/main/scala/ru/simplesys/dmprocess/persistence/stub/journal/
+snapshots/
+TestTokenizer.txt
+*.ignore
+
+### Scala template
+*.class
+*.log
+
+# sbt specific
+.cache
+.history
+dist/*
+target/
+lib_managed/
+src_managed/
+project/boot/
+project/plugins/project/
+web-ui/src/main/webapp/javascript/IncludeModules
+
+# Scala-IDE specific
+.scala_dependencies
+.worksheet
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+
+isomorphic/
+managed/
+upgrade/
+generatedScalaJS/
+!common/lib/*.jar

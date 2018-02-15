@@ -1,0 +1,89 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<RootPane xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xmlns="http://simpleSys.ru/xml/library/app"
+          xmlns:isc="http://simpleSys.ru/xml/library/ISC"
+          xsi:schemaLocation="http://simpleSys.ru/xml/library/app http://toucan.simplesys.lan/xml/xsd/v1.0.0-1/schemaApp.xsd">
+    <Bo BoName="User"
+        GroupName="admin"
+        BoCaption="Пользователи"
+        GroupCaption="Группы и Пользователи"
+        Enabled="true"/>
+    <BoTreeCaption>Группы пользователей</BoTreeCaption>
+    <MenuPath>
+        <isc:GroupTitle>Группы и Пользователи</isc:GroupTitle>
+        <isc:Identifier>admin</isc:Identifier>
+        <isc:Title>Группы и Пользователи</isc:Title>
+        <isc:MenuPath>
+            <isc:Identifier>admin_User</isc:Identifier>
+            <isc:Title>Пользователи</isc:Title>
+        </isc:MenuPath>
+    </MenuPath>
+    <DataSources>
+        <DataSource>
+            <Identifier>admin_User_DS</Identifier>
+        </DataSource>
+        <DataSource>
+            <Identifier>admin_UserGroup_DS</Identifier>
+        </DataSource>
+    </DataSources>
+    <RootCanvas>
+        <TreeListGridEditor>
+            <useSelfName>false</useSelfName>
+            <Identifier>editoradmin_User</Identifier>
+            <DataPageSizeList>simpleSyS.config.dataPageSize</DataPageSizeList>
+            <DrawAheadRatioList>simpleSyS.config.drawAheadRatio</DrawAheadRatioList>
+            <DataPageSizeTree>simpleSyS.config.dataPageSize</DataPageSizeTree>
+            <DrawAheadRatioTree>simpleSyS.config.drawAheadRatio</DrawAheadRatioTree>
+            <InitialSortList>
+                <SortSpecifier>
+                    <Property>di</Property>
+                </SortSpecifier>
+            </InitialSortList>
+            <InitialSortTree>
+                <SortSpecifier>
+                    <Property>di</Property>
+                </SortSpecifier>
+            </InitialSortTree>
+            <AutoFetchData>true</AutoFetchData>
+            <AutoSaveListEdits>false</AutoSaveListEdits>
+            <AutoSaveTreeEdits>true</AutoSaveTreeEdits>
+            <CanEditList>true</CanEditList>
+            <CanEditTree>true</CanEditTree>
+            <CanSelectCellsList>false</CanSelectCellsList>
+            <CanSelectCellsTree>false</CanSelectCellsTree>
+            <ListGridDataSourceElement>
+                <DataSourceIDREF>admin_User_DS</DataSourceIDREF>
+            </ListGridDataSourceElement>
+            <TreeGridDataSourceElement>
+                <DataSourceIDREF>admin_UserGroup_DS</DataSourceIDREF>
+            </TreeGridDataSourceElement>
+            <FolderDropImageTree>folder.png</FolderDropImageTree>
+            <FolderIconTree>folder.png</FolderIconTree>
+            <NodeIconTree>tree_node.png</NodeIconTree>
+            <TreeGridDefaultFields>
+                <Field>
+                    <Name>codeGroup</Name>
+                </Field>
+                <Field>
+                    <Name>captionGroup</Name>
+                </Field>
+            </TreeGridDefaultFields>
+            <ShowListFilterEditor>true</ShowListFilterEditor>
+            <ShowTreeFilterEditor>true</ShowTreeFilterEditor>
+            <FetchListDelay>500</FetchListDelay>
+            <FetchTreeDelay>500</FetchTreeDelay>
+            <FilterListOnKeypress>true</FilterListOnKeypress>
+            <FilterTreeOnKeypress>true</FilterTreeOnKeypress>
+            <TextMatchStyleList>txtMchStyleSubstring</TextMatchStyleList>
+            <TextMatchStyleTree>txtMchStyleSubstring</TextMatchStyleTree>
+            <ShowListAdvancedFilter>false</ShowListAdvancedFilter>
+            <ShowTreeAdvancedFilter>false</ShowTreeAdvancedFilter>
+            <ShowListRecordComponents>true</ShowListRecordComponents>
+            <ShowListRecordComponentsByCell>true</ShowListRecordComponentsByCell>
+            <ShowTreeRecordComponents>false</ShowTreeRecordComponents>
+            <ShowTreeRecordComponentsByCell>false</ShowTreeRecordComponentsByCell>
+            <WrapListCells>true</WrapListCells>
+            <WrapTreeCells>true</WrapTreeCells>
+        </TreeListGridEditor>
+    </RootCanvas>
+</RootPane>

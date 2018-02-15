@@ -1,0 +1,20 @@
+<?xml version="1.1"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://simpleSys.ru/xml/library/ENZO"
+           xmlns="http://simpleSys.ru/xml/library/ENZO"
+           xmlns:isc="http://simpleSys.ru/xml/library/ISC"
+           attributeFormDefault="unqualified"
+           elementFormDefault="qualified" version="1.0.0.">
+
+    <xs:import schemaLocation="http://toucan.simplesys.lan/xml/xsd/v1.0.0-1/schemaISC.xsd" namespace="http://simpleSys.ru/xml/library/ISC"/>
+
+    <xs:element name="MainView">
+        <xs:complexType>
+            <xs:all minOccurs="1">
+                <xs:element ref="isc:TabSetDyn"/>
+                <xs:element ref="isc:IconMenuButtonDyn"/>
+                <xs:element ref="isc:RibbonGroupDyn"/>
+                <xs:element ref="isc:DataViewSSDyn"/>
+            </xs:all>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
