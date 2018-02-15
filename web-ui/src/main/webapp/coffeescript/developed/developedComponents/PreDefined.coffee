@@ -1,4 +1,0 @@
-@simpleSyS = {} unless @simpleSyS
-
-
-

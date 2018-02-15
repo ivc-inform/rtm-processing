@@ -1,30 +1,32 @@
-import com.typesafe.sbt.GitVersioning
-import com.typesafe.sbt.SbtGit.git
-import ru.simplesys.sbprocessing.sbtbuild.{CommonSettings, PluginDeps}
 import sbt._
 
 
-//lazy val scenarioPlugin = uri("../../build-plugins/scenario-plugin")
-//lazy val devPlugin = uri("../../sbt-plugins/dev-plugin")
-//lazy val scalaFmtPlugin = uri("../../build-plugins/scala-fmt")
+lazy val devPlugin = uri("../../sbt-plugins/dev-plugin")
+//lazy val circeExtender = uri("../../simplesys/circe-extender")
+//lazy val sbtCoffeeScript = uri("../../sbt-plugins/sbt-coffeescript")
+//lazy val sbtNativePackager = uri("../../sbt-plugins/sbt-native-packager")
+//lazy val mergeJS = uri("../../sbt-plugins/merge-js")
 
-lazy val root = Project(id = "buildPlugins", base = file("."))
-  .enablePlugins(GitVersioning)
-  .dependsOn(
-      /*scenarioPlugin*/
-      /*, scalaFmtPlugin*/
-      /*devPlugin*/)
-  .settings(inThisBuild(CommonSettings.defaultSettings ++ Seq(
-      git.baseVersion := CommonSettings.settingValues.baseVersion
-  ))).
-  settings(
-      //PluginDeps.scenarioPlugin,
-      PluginDeps.scalaFmtPlugin,
-      PluginDeps.sbtNativePackager,
-      PluginDeps.devPlugin,
-      PluginDeps.scalaFmtPlugin,
+lazy val root = Project(id = "buildPlugins", base = file(".")).dependsOn(
+    RootProject(devPlugin),
+    /*RootProject(circeExtender), */
+    /*RootProject(sbtCoffeeScript), */
+    /*RootProject(sbtNativePackager), */
+    /*RootProject(mergeJS)*/
+)
+
+  .settings(sbt.inThisBuild(CommonSettings.defaultSettings))
+  .settings(
+      classpathTypes += "maven-plugin",
+      //PluginDeps.devPlugin,
       PluginDeps.sbtCoffeeScript,
       PluginDeps.mergeJS,
       PluginDeps.xsbtWeb,
-      PluginDeps.scalaJSPlugin
+      PluginDeps.sbtNativePackager,
+      PluginDeps.jrebelPlugin,
+      PluginDeps.crossproject,
+      PluginDeps.sbtCrossproject,
+      libraryDependencies ++= Seq(
+          CommonDeps.circeExtender
+      )
   )

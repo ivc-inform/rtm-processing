@@ -1,0 +1,69 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<objectSchema xmlns="http://simpleSys.ru/xml/library/bo" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://simpleSys.ru/xml/library/bo http://toucan.simplesys.lan/xml/xsd/v1.0.0-1/schema.xsd">
+	<group prefix="A" name="admin" caption="Группы и Пользователи">
+		<classes>
+			<classSimple name="UserGroup" caption="Группы пользователей" autoTableMapping="true">
+				<attrs>
+					<attr name="di" type="id" mandatory="true" hidden="true" caption="Идентификатор" genBySeq="true"/>
+					<attr name="codeGroup" type="sCaption" mandatory="true" caption="Код группы" genBySeq="true"/>
+					<attr name="captionGroup" type="sCode" mandatory="false" caption="Наименование группы"/>
+					<attr name="descriptionGroup" type="sDescription" mandatory="false" caption="Описание группы"/>
+					<attr name="active" type="bBoolean" caption="Активность" mandatory="true"/>
+				</attrs>
+				<constraints>
+					<uc uniqueType="pk">
+						<attrName>di</attrName>
+					</uc>
+						<uc uniqueType="uq">
+							<attrName>codeGroup</attrName>
+						</uc>
+					<fk parent="UserGroup" linkType="refIsOwner" mandatory="false">
+						<mapping attrNameLocal="parent" attrNameRemote="di"/>
+					</fk>
+				</constraints>
+				<defaults>
+					<showAttrs>
+						<attrName>codeGroup</attrName>
+						<attrName>captionGroup</attrName>
+					</showAttrs>
+					<uiSettings uiFormType="singleTreeGrid"/>
+				</defaults>
+			</classSimple>
+
+			<classSimple name="User" autoTableMapping="true" caption="Пользователи">
+				<attrs>
+					<attr name="di" type="id" mandatory="true" hidden="true" caption="Идентификатор" genBySeq="true"/>
+					<attr name="login" type="sCode" caption="Логин" mandatory="true" />
+					<attr name="firstName" caption="Имя" type="sCaption" mandatory="false"/>
+					<attr name="secondName" caption="Отчество" type="sCaption" mandatory="false"/>
+					<attr name="lastName" caption="Фамилия" type="sCaption" mandatory="true"/>
+					<attr name="caption" type="sCaption" caption="Имя пользователя" mandatory="true" calculated="true" formula='lastName + firstName.map(" " + _).getOrElse("") + secondName.map(" " + _).getOrElse("")'/>
+					<attr name="password" type="sPasswordPlain" caption="Пароль" mandatory="true"/>
+					<attr name="active" type="bBoolean" caption="Активность" mandatory="true"/>
+				</attrs>
+				<defaults>
+					<showAttrs>
+						<attrName>caption</attrName>
+					</showAttrs>
+					<classifier>
+						<attrName>group</attrName>
+					</classifier>
+					<uiSettings uiFormType="masterTreeDetailedListGrid"/>
+					<!--<uiSettings uiFormType="singleListGrid"/>-->
+
+				</defaults>
+				<constraints>
+					<uc uniqueType="pk">
+						<attrName>di</attrName>
+					</uc>
+					<fk parent="UserGroup" linkType="refIsOwner" mandatory="false">
+						<mapping attrNameLocal="group" attrNameRemote="di"/>
+					</fk>
+					<uc uniqueType="uq">
+						<attrName>login</attrName>
+					</uc>
+				</constraints>
+			</classSimple>
+		</classes>
+	</group>
+</objectSchema>

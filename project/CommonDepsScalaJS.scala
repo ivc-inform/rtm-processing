@@ -1,15 +1,17 @@
-package ru.simplesys.sbprocessing.sbtbuild
-
+import CommonDeps.versions
 import sbt._
 import org.scalajs.sbtplugin.ScalaJSPlugin.autoImport._
 
 object CommonDepsScalaJS {
-    val useFullSmartClientWrapper = false
+    val smartClientWrapper = Def.setting("com.simplesys" %%% "smartclient-wrapper" % versions.scalaJSVersion)
+    val commonTypesSCW = Def.setting("com.simplesys" %%% "common-types" % versions.scalaJSVersion)
+    //val smartClientWrapper = ProjectRef(uri("../../JOB/scalajs"), "smartClientCrossProjJS")
 
-    val macroJS = Def.setting("com.simplesys" %%% "macrojs" % CommonDeps.versions.scalaJSVersion)
-    val smartClientWrapper = if (useFullSmartClientWrapper) Def.setting("com.simplesys" %%% "smartclient-wrapper" % CommonDeps.versions.scalaJSVersion) else Def.setting("com.simplesys" %%% "common-types" % CommonDeps.versions.scalaJSVersion)
+    val scalaTags = Def.setting("com.lihaoyi" %%% "scalatags" % versions.scalaTagsVersion)
+    val scalaTest = Def.setting("org.scalatest" %%% "scalatest" % versions.scalaTestVersion % Test)
+    val scalaDom = Def.setting("org.scala-js" %%% "scalajs-dom" % versions.scalajsDOMVersion)
+    val jQuery = Def.setting("io.udash" %%% "udash-jquery" % versions.udashJQueryVersion)
 
-    val uPickleJS = Def.setting("com.lihaoyi" %%% "upickle" % CommonDeps.versions.uPickleVersion)
-
-    val scalaTags = Def.setting("com.lihaoyi" %%% "scalatags" % CommonDeps.versions.scalaTagsVersion)
+    val circeExtender = Def.setting("com.simplesys.cross" %%% "circe-extender" % versions.ssCrossVersion)
+    val servletWrapper = Def.setting("com.simplesys.cross" %%% "servlet-wrapper" % versions.ssCrossVersion)
 }
